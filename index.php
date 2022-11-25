@@ -2,10 +2,14 @@
 //require_once 'php/db_connect.php';
 
 session_start();
+$role = 'NORMAL';
 
 if(!isset($_SESSION['userID'])){
   echo '<script type="text/javascript">';
   echo 'window.location.href = "login.html";</script>';
+}
+else{
+  $role = $_SESSION['role'];
 }
 ?>
 
@@ -14,7 +18,7 @@ if(!isset($_SESSION['userID'])){
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>MBSB | Dashboard</title>
+  <title>Felda | Dashboard</title>
 
   <link rel="icon" href="images/logo.png" type="image">
   <!-- Google Font: Source Sans Pro -->
@@ -64,7 +68,7 @@ if(!isset($_SESSION['userID'])){
     <!-- Brand Logo -->
     <a href="#" class="brand-link">
       <!--img src="dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8"-->
-      <span class="brand-text font-weight-light">MBSB</span>
+      <span class="brand-text font-weight-light">Felda</span>
     </a>
 
     <!-- Sidebar -->
@@ -77,15 +81,21 @@ if(!isset($_SESSION['userID'])){
           <li class="nav-item">
             <a href="#home" data-file="home.html" class="nav-link link">
               <i class="nav-icon fas fa-tachometer-alt"></i>
-              <p>Jonker Street</p>
+              <p>Dashboard</p>
+            </a>
+          </li>
+          <!--li class="nav-item">
+            <a href="#1utama" data-file="1utama.html" class="nav-link link">
+              <i class="nav-icon fas fa-tachometer-alt"></i>
+              <p>Uniqlo OU</p>
             </a>
           </li>
           <li class="nav-item">
-            <a href="#pasar" data-file="pasar.html" class="nav-link link">
+            <a href="#damansara" data-file="damansara.html" class="nav-link link">
               <i class="nav-icon fas fa-tachometer-alt"></i>
-              <p>Pasar Melaka</p>
+              <p>Uniqlo DAS</p>
             </a>
-          </li>
+          </li-->
           <li class="nav-item">
             <a href="php/logout.php" class="nav-link">
               <i class="nav-icon fas fa-sign-out-alt"></i>
@@ -127,6 +137,7 @@ if(!isset($_SESSION['userID'])){
 <script src="dist/js/adminlte.js"></script>
 <!-- OPTIONAL SCRIPTS -->
 <script src="plugins/chart.js/Chart.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
 <!-- date-range-picker -->
 <script src="plugins/moment/moment.min.js"></script>
 <script src="plugins/daterangepicker/daterangepicker.js"></script>
@@ -135,7 +146,15 @@ if(!isset($_SESSION['userID'])){
 <script src="plugins/toastr/toastr.min.js"></script>
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
 <script src="dist/js/pages/dashboard3.js"></script>
+<script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
+<script src="plugins/heatmap/build/heatmap.js"></script>
+<script src="plugins/heatmap/plugins/leaflet-heatmap/leaflet-heatmap.js"></script>
 <script>
+var ouStartDate = "";
+var ouEndDate = "";
+var ouStartTime = "";
+var ouEndTime = "";
+
 $(function () {
   toastr.options = {
     "closeButton": false,
@@ -190,7 +209,7 @@ function addData(chart, label, data) {
   chart.update();
 }
 
-function addStackChartData(chart, label, data, data2, data3, data4, data5, data6) {
+function addStackChartData(chart, label, data, data2, data3, data4, data5, data6, data7, data8, data9) {
   chart.data.labels.push(label);
   chart.data.datasets[0].data.push(data);
   chart.data.datasets[1].data.push(data2);
@@ -198,6 +217,9 @@ function addStackChartData(chart, label, data, data2, data3, data4, data5, data6
   chart.data.datasets[3].data.push(data4);
   chart.data.datasets[4].data.push(data5);
   chart.data.datasets[5].data.push(data6);
+  chart.data.datasets[6].data.push(data7);
+  chart.data.datasets[7].data.push(data8);
+  chart.data.datasets[8].data.push(data9);
   chart.update();
 }
 
@@ -238,6 +260,15 @@ function formatDate(date) {
     day = '0' + day;
 
   return [year, month, day].join('-');
+}
+
+function report(type){
+  if(type == 'passedingroundmonthly' || type =='passedinlvl1monthly' || type =='groundlvl1monthly' || type =='dastotalvisitorsmonthly' || type =='dastotalzonevisitorsmonthly'){
+    window.open("php/export.php?fromDate="+ouStartDate+"&toDate="+ouEndDate+"&type="+type);
+  }
+  else if(type == 'passedingrounddaily' || type =='passedinlvl1daily' || type =='groundlvl1daily' || type =='dastotalvisitorsdaily' || type =='dastotalzonevisitorsdaily'){
+    window.open("php/export.php?fromDate="+ouStartTime+"&toDate="+ouEndTime+"&type="+type);
+  }
 }
 </script>
 </body>
