@@ -1,0 +1,297 @@
+<div class="content-header">
+  <div class="container-fluid">
+    <div class="row mb-2">
+      <div class="col-sm-6">
+        <h1 class="m-0">Felda</h1>
+      </div><!-- /.col -->
+      <div class="col-sm-6">
+        <ol class="breadcrumb float-sm-right">
+          <li class="breadcrumb-item">Felda</li>
+          <li class="breadcrumb-item active">Dashboard</li>
+        </ol>
+      </div><!-- /.col -->
+    </div><!-- /.row -->
+  </div><!-- /.container-fluid -->
+</div>
+<!-- /.content-header -->
+
+<!-- Main content -->
+<div class="content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="card">
+          <div class="card-body">
+            <div class="row">
+              <div class="col-4">
+                <div class="form-group">
+                  <label>Date range button:</label>
+
+                  <div class="input-group">
+                    <button type="button" class="btn btn-default float-right" id="daterange-btn">
+                      <i class="far fa-calendar-alt"></i> Date range picker
+                      <i class="fas fa-caret-down"></i>
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <div class="col-4">
+                <div class="form-group">
+                  <label>Harvesrter ID:</label>
+                  <select class="form-control" id="harvesterId">
+                    <option value="212248">212248</option>
+                    <option value="561973">561973</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-12">
+      <div class="card">
+        <div class="card-header">
+          <h3 class="card-title">Path Tracking</h3>
+        </div>
+        <div class="card-body">
+          <table id="example2" class="table table-bordered table-hover">
+            <thead>
+              <tr>
+                <th>No.</th>
+                <th>Date</th>
+                <th>Path</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="pathTracking"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- /.container-fluid -->
+</div>
+<!-- /.content -->
+<div class="modal fade" id="editModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="title">-</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <table id="example3" class="table table-bordered table-hover">
+          <thead>
+            <tr>
+              <th>No.</th>
+              <th>Time</th>
+              <th>Location</th>
+            </tr>
+          </thead>
+          <tbody id="pathTrackingDetails"></tbody>
+        </table>
+      </div>
+      <div class="modal-footer justify-content-between">
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+    <!-- /.modal-content -->
+  </div>
+  <!-- /.modal-dialog -->
+</div>
+
+<script>
+var trackers;
+
+$(function () {
+  var startDate = moment().subtract(29, 'days');
+  var endDate= moment();
+
+  $('#example2').DataTable({
+    //"paging": true,
+    "lengthChange": false,
+    "searching": false,
+    "ordering": true,
+    "info": true,
+    "autoWidth": false,
+    "responsive": true,
+  });
+
+  $('#example3').DataTable({
+    //"paging": true,
+    "lengthChange": false,
+    "searching": false,
+    "ordering": true,
+    "info": true,
+    "autoWidth": false,
+    "responsive": true,
+  });
+
+  //Date range as a button
+  $('#daterange-btn').daterangepicker(
+    {
+      ranges   : {
+        'Today'       : [moment(), moment()],
+        'Yesterday'   : [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+        'Last 7 Days' : [moment().subtract(6, 'days'), moment()],
+        'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+        'This Month'  : [moment().startOf('month'), moment().endOf('month')],
+        'Last Month'  : [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+      },
+      startDate: moment().subtract(29, 'days'),
+      endDate  : moment()
+    },
+    function (start, end) {
+      startDate = start;
+      endDate = end;
+      var startFormatted = formatDate(start) + " 00:00:00";
+      var endFormatted = formatDate(end) + " 23:59:59";
+      var harvesterId = $('#harvesterId').val();
+      
+      $.post('php/gettracking.php', {startDate: startFormatted, endDate: endFormatted, harvesterId: harvesterId}, function(data){
+        var obj = JSON.parse(data);
+
+        if(obj.status === 'success'){
+          trackers = obj.message;
+          $('#pathTracking').html('');
+
+          for(var i=0; i<obj.message.length; i++){
+            var rows = '<tr><td>' + (i+1).toString() + '</td><td>'+ obj.message[i].Date +'</td><td>';
+            
+            if(obj.message[i].Path != null && obj.message[i].Path.length > 0){
+              for(var j=0; j< obj.message[i].Path.length; j++){
+                if(j == 0){
+                  rows = rows + obj.message[i].Path[j].Location;
+                }
+                else{
+                  rows = rows + '->' + obj.message[i].Path[j].Location;
+                }
+                
+              }
+
+              rows = rows + '</td><td><div class="row"><div class="col-3"><button type="button" onclick="view('+i+')" class="btn btn-success btn-sm"><i class="fas fa-eye"></i></button></div></div></td>';
+            }
+            else{
+              rows = rows + '<td></td><td></td>';
+            }
+
+            $('#pathTracking').append(rows);
+          }
+        }
+        else if(obj.status === 'failed'){
+          toastr["error"](obj.message, "Failed:");
+        }
+        else{
+          toastr["error"]("Something wrong when geting data", "Failed:");
+        }
+      });
+    }
+  );
+
+  $('#harvesterId').on('change', function(){
+    var startFormatted = formatDate(startDate) + " 00:00:00";
+    var endFormatted = formatDate(endDate) + " 23:59:59";
+    var harvesterId = $(this).val();
+    
+    $.post('php/gettracking.php', {startDate: startFormatted, endDate: endFormatted, harvesterId: harvesterId}, function(data){
+      var obj = JSON.parse(data);
+
+      if(obj.status === 'success'){
+        trackers = obj.message;
+        $('#pathTracking').html('');
+
+        for(var i=0; i<obj.message.length; i++){
+          var rows = '<tr><td>' + (i+1).toString() + '</td><td>'+ obj.message[i].Date +'</td><td>';
+          
+          if(obj.message[i].Path != null && obj.message[i].Path.length > 0){
+            for(var j=0; j< obj.message[i].Path.length; j++){
+              if(j == 0){
+                rows = rows + obj.message[i].Path[j].Location;
+              }
+              else{
+                rows = rows + '->' + obj.message[i].Path[j].Location;
+              }
+              
+            }
+
+            rows = rows + '</td><td><div class="row"><div class="col-3"><button type="button" onclick="view('+i+')" class="btn btn-success btn-sm"><i class="fas fa-eye"></i></button></div></div></td>';
+          }
+          else{
+            rows = rows + '<td></td><td></td>';
+          }
+
+          $('#pathTracking').append(rows);
+        }
+      }
+      else if(obj.status === 'failed'){
+        toastr["error"](obj.message, "Failed:");
+      }
+      else{
+        toastr["error"]("Something wrong when geting data", "Failed:");
+      }
+    });
+  });
+
+  $.post('php/gettracking.php', {startDate: formatDate(moment().subtract(29, 'days')) + " 00:00:00", endDate: formatDate(moment()) + " 23:59:59", harvesterId: $('#harvesterId').val()}, function(data){
+    startDate = moment().subtract(29, 'days');
+    endDate = moment();
+    var obj = JSON.parse(data);
+
+    if(obj.status === 'success'){
+      trackers = obj.message;
+      $('#pathTracking').html('');
+
+      for(var i=0; i<obj.message.length; i++){
+        var rows = '<tr><td>' + (i+1).toString() + '</td><td>'+ obj.message[i].Date +'</td><td>';
+        
+        if(obj.message[i].Path != null && obj.message[i].Path.length > 0){
+          for(var j=0; j< obj.message[i].Path.length; j++){
+            if(j == 0){
+              rows = rows + obj.message[i].Path[j].Location;
+            }
+            else{
+              rows = rows + '->' + obj.message[i].Path[j].Location;
+            }
+            
+          }
+
+          rows = rows + '</td><td><div class="row"><div class="col-3"><button type="button" onclick="view('+i+')" class="btn btn-success btn-sm"><i class="fas fa-eye"></i></button></div></div></td></tr>';
+        }
+        else{
+          rows = rows + '<td></td><td></td></tr>';
+        }
+
+        $('#pathTracking').append(rows);
+      }
+    }
+    else if(obj.status === 'failed'){
+      toastr["error"](obj.message, "Failed:");
+    }
+    else{
+      toastr["error"]("Something wrong when geting data", "Failed:");
+    }
+  });
+});
+
+function view(i) {
+  $('#editModal').find('#title').html(trackers[i].Date);
+  $('#pathTrackingDetails').html('');
+  var rows = '<tr>';
+
+  if(trackers[i].Path != null && trackers[i].Path.length > 0){
+    for(var j=0; j< trackers[i].Path.length; j++){
+      rows = rows + '<td>' + (j+1).toString() + '</td><td>'+ trackers[i].Path[j].Date +'</td><td>'+ trackers[i].Path[j].Location +'</td></tr>';     
+    }
+  }
+  else{
+    rows = rows + '<td></td><td></td><td></td</tr>';
+  }
+
+  $('#pathTrackingDetails').append(rows);
+  $('#editModal').modal('show');
+}
+</script>
+  

@@ -32,6 +32,20 @@ if(isset($_POST['startDate'], $_POST['endDate'])){
             $totalC2 = 0;
             $totalC3 = 0;
             $totalCount = 0;
+            $E1Big = 0;
+            $E1Small = 0;
+            $E2Big = 0;
+            $E2Small = 0;
+            $E3Big = 0;
+            $E3Small = 0;
+            $E5Big = 0;
+            $E5Small = 0;
+            $C1Big = 0;
+            $C1Small = 0;
+            $C2Big = 0;
+            $C2Small = 0;
+            $C3Big = 0;
+            $C3Small = 0;
             
             while($row = $result->fetch_assoc()) {
                 if(!in_array(substr($row['Rec_time'], 0, 10), $dateBar)){
@@ -56,31 +70,43 @@ if(isset($_POST['startDate'], $_POST['endDate'])){
                 if($row['Node_name'] == 'c1'){
                     $message[$key]['C1Count'] += (int)$row['Big_car'];
                     $message[$key]['C1Count'] += (int)$row['Small_car'];
+                    $C1Big += (int)$row['Big_car'];
+                    $C1Small += (int)$row['Small_car'];
                     $totalC1 = $totalC1 + (int)$row['Big_car'] + (int)$row['Small_car'];
                 }
                 else if($row['Node_name'] == 'c2'){
                     $message[$key]['C2Count'] += (int)$row['Big_car'];
                     $message[$key]['C2Count'] += (int)$row['Small_car'];
+                    $C2Big += (int)$row['Big_car'];
+                    $C2Small += (int)$row['Small_car'];
                     $totalC2 = $totalC2 + (int)$row['Big_car'] + (int)$row['Small_car'];
                 }
                 else if($row['Node_name'] == 'c3'){
                     $message[$key]['C3Count'] += (int)$row['Big_car'];
                     $message[$key]['C3Count'] += (int)$row['Small_car'];
+                    $C3Big += (int)$row['Big_car'];
+                    $C3Small += (int)$row['Small_car'];
                     $totalC3 = $totalC3 + (int)$row['Big_car'] + (int)$row['Small_car'];
                 }
                 else if($row['Node_name'] == 'e1'){
                     $message[$key]['E1Count'] += (int)$row['Big_car'];
                     $message[$key]['E1Count'] += (int)$row['Small_car'];
+                    $E1Big += (int)$row['Big_car'];
+                    $E1Small += (int)$row['Small_car'];
                     $totalE1 = $totalE1 + (int)$row['Big_car'] + (int)$row['Small_car'];
                 }
                 else if($row['Node_name'] == 'e2'){
                     $message[$key]['E2Count'] += (int)$row['Big_car'];
                     $message[$key]['E2Count'] += (int)$row['Small_car'];
+                    $E2Big += (int)$row['Big_car'];
+                    $E2Small += (int)$row['Small_car'];
                     $totalE2 = $totalE2 + (int)$row['Big_car'] + (int)$row['Small_car'];
                 }
                 else if($row['Node_name'] == 'e3'){
                     $message[$key]['E3Count'] += (int)$row['Big_car'];
                     $message[$key]['E3Count'] += (int)$row['Small_car'];
+                    $E3Big += (int)$row['Big_car'];
+                    $E3Small += (int)$row['Small_car'];
                     $totalE3 = $totalE3 + (int)$row['Big_car'] + (int)$row['Small_car'];
                 }
                 else if($row['Node_name'] == 'e4'){
@@ -91,6 +117,8 @@ if(isset($_POST['startDate'], $_POST['endDate'])){
                 else if($row['Node_name'] == 'e5'){
                     $message[$key]['E5Count'] += (int)$row['Big_car'];
                     $message[$key]['E5Count'] += (int)$row['Small_car'];
+                    $E5Big += (int)$row['Big_car'];
+                    $E5Small += (int)$row['Small_car'];
                     $totalE5 = $totalE5 + (int)$row['Big_car'] + (int)$row['Small_car'];
                 }
             }
@@ -107,7 +135,21 @@ if(isset($_POST['startDate'], $_POST['endDate'])){
                     "totalC1" => $totalC1,
                     "totalC2" => $totalC2,
                     "totalC3" => $totalC3,
-                    "totalCount" => $totalCount
+                    "totalCount" => $totalCount,
+                    "E1Big" => $E1Big,
+                    "E1Small" => $E1Small,
+                    "E2Big" => $E2Big,
+                    "E2Small" => $E2Small,
+                    "E3Big" => $E3Big,
+                    "E3Small" => $E3Small,
+                    "E5Big" => $E5Big,
+                    "E5Small" => $E5Small,
+                    "C1Big" => $C1Big,
+                    "C1Small" => $C1Small,
+                    "C2Big" => $C2Big,
+                    "C2Small" => $C2Small,
+                    "C3Big" => $C3Big,
+                    "C3Small" => $C3Small
                 )
             );   
         }

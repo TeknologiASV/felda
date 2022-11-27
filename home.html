@@ -56,9 +56,77 @@
   <!-- /.container-fluid -->
 </div>
 <!-- /.content -->
-  
+<div class="modal fade" id="editModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="title">-</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-6">
+            <div class="info-box">
+              <span class="info-box-icon bg-warning"><i class="fas fa-truck"></i></span>
+              <div class="info-box-content">
+                <div class="info-box-content">
+                  <span class="info-box-text">Big Vehicle</span>
+                  <span class="info-box-number" id="bigVehicle">0</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="info-box">
+              <span class="info-box-icon bg-success"><i class="fas fa-car"></i></span>
+              <div class="info-box-content">
+                <span class="info-box-text">Small Vehicle</span>
+                <span class="info-box-number" id="smallVehicle">0</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="card">
+              <div class="card-header">
+                <h3 class="card-title">Big Vehicle vs Small Vehicle</h3>
+              </div>
+              <div class="card-body">
+                <canvas id="bigSmallVehicle" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer justify-content-between">
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+    <!-- /.modal-content -->
+  </div>
+  <!-- /.modal-dialog -->
+</div>
+
 <script>
 $(function () {
+  var E1Big = 0;
+  var E1Small = 0;
+  var E2Big = 0;
+  var E2Small = 0;
+  var E3Big = 0;
+  var E3Small = 0;
+  var E5Big = 0;
+  var E5Small = 0;
+  var C1Big = 0;
+  var C1Small = 0;
+  var C2Big = 0;
+  var C2Small = 0;
+  var C3Big = 0;
+  var C3Small = 0;
+
   //Date range as a button
   $('#daterange-btn').daterangepicker(
     {
@@ -81,6 +149,21 @@ $(function () {
         var obj = JSON.parse(data);
 
         if(obj.status === 'success'){
+          E1Big = obj.E1Big;
+          E1Small = obj.E1Small;
+          E2Big = obj.E2Big;
+          E2Small = obj.E2Small;
+          E3Big = obj.E3Big;
+          E3Small = obj.E3Small;
+          E5Big = obj.E5Big;
+          E5Small = obj.E5Small;
+          C1Big = obj.C1Big;
+          C1Small = obj.C1Small;
+          C2Big = obj.C2Big;
+          C2Small = obj.C2Small;
+          C3Big = obj.C3Big;
+          C3Small = obj.C3Small;
+
           heatmap.setData({
             max: 100,
             min: 0,
@@ -153,6 +236,72 @@ $(function () {
     blur: .90
   });
 
+  document.querySelector('#heatmapContainerWrapper').onclick = function(ev) {
+    if((ev.layerX <= (0.53*width + 50) && (0.53*width - 50) <= ev.layerX) && (ev.layerY <= (0.75 * height + 50) && (0.75 * height - 50) <= ev.layerY)){
+      $('#editModal').find('#title').html("E1");
+      $('#editModal').find('#bigVehicle').html(E1Big);
+      $('#editModal').find('#smallVehicle').html(E1Small);
+      removeData(passedInGroundPie);
+      addData(passedInGroundPie, 'Small Vehicle', E1Small);
+      addData(passedInGroundPie, 'Big Vehicle', E1Big);
+      $('#editModal').modal('show');
+    }
+    else if((ev.layerX <= (0.4*width + 50) && (0.4*width - 50) <= ev.layerX) && (ev.layerY <= (0.75 * height + 50) && (0.75 * height - 50) <= ev.layerY)){
+      $('#editModal').find('#title').html("E2");
+      $('#editModal').find('#bigVehicle').html(E2Big);
+      $('#editModal').find('#smallVehicle').html(E2Small);
+      removeData(passedInGroundPie);
+      addData(passedInGroundPie, 'Small Vehicle', E2Small);
+      addData(passedInGroundPie, 'Big Vehicle', E2Big);
+      $('#editModal').modal('show');
+    }
+    else if((ev.layerX <= (0.35*width + 50) && (0.35*width - 50) <= ev.layerX) && (ev.layerY <= (0.28 * height + 50) && (0.28 * height - 50) <= ev.layerY)){
+      $('#editModal').find('#title').html("E3");
+      $('#editModal').find('#bigVehicle').html(E3Big);
+      $('#editModal').find('#smallVehicle').html(E3Small);
+      removeData(passedInGroundPie);
+      addData(passedInGroundPie, 'Small Vehicle', E3Small);
+      addData(passedInGroundPie, 'Big Vehicle', E3Big);
+      $('#editModal').modal('show');
+    }
+    else if((ev.layerX <= (0.18*width + 50) && (0.18*width - 50) <= ev.layerX) && (ev.layerY <= (0.15 * height + 50) && (0.15 * height - 50) <= ev.layerY)){
+      $('#editModal').find('#title').html("E5");
+      $('#editModal').find('#bigVehicle').html(E5Big);
+      $('#editModal').find('#smallVehicle').html(E5Small);
+      removeData(passedInGroundPie);
+      addData(passedInGroundPie, 'Small Vehicle', E5Small);
+      addData(passedInGroundPie, 'Big Vehicle', E5Big);
+      $('#editModal').modal('show');
+    }
+    else if((ev.layerX <= (0.7*width + 50) && (0.7*width - 50) <= ev.layerX) && (ev.layerY <= (0.93 * height + 50) && (0.93 * height - 50) <= ev.layerY)){
+      $('#editModal').find('#title').html("C1");
+      $('#editModal').find('#bigVehicle').html(C1Big);
+      $('#editModal').find('#smallVehicle').html(C1Small);
+      removeData(passedInGroundPie);
+      addData(passedInGroundPie, 'Small Vehicle', C1Small);
+      addData(passedInGroundPie, 'Big Vehicle', C1Big);
+      $('#editModal').modal('show');
+    }
+    else if((ev.layerX <= (0.63*width + 50) && (0.63*width - 50) <= ev.layerX) && (ev.layerY <= (0.8 * height + 50) && (0.8 * height - 50) <= ev.layerY)){
+      $('#editModal').find('#title').html("C2");
+      $('#editModal').find('#bigVehicle').html(C2Big);
+      $('#editModal').find('#smallVehicle').html(C2Small);
+      removeData(passedInGroundPie);
+      addData(passedInGroundPie, 'Small Vehicle', C2Small);
+      addData(passedInGroundPie, 'Big Vehicle', C2Big);
+      $('#editModal').modal('show');
+    }
+    else if((ev.layerX <= (0.33*width + 50) && (0.33*width - 50) <= ev.layerX) && (ev.layerY <= (0.7 * height + 50) && (0.7 * height - 50) <= ev.layerY)){
+      $('#editModal').find('#title').html("C3");
+      $('#editModal').find('#bigVehicle').html(C3Big);
+      $('#editModal').find('#smallVehicle').html(C3Small);
+      removeData(passedInGroundPie);
+      addData(passedInGroundPie, 'Small Vehicle', C3Small);
+      addData(passedInGroundPie, 'Big Vehicle', C3Big);
+      $('#editModal').modal('show');
+    }
+  };
+
   // boundaries for data generation
   var width = (+window.getComputedStyle(document.getElementsByClassName('heatmap-canvas')[0]).width.replace(/px/,''));
   var height = (+window.getComputedStyle(document.getElementsByClassName('heatmap-canvas')[0]).height.replace(/px/,''));
@@ -160,10 +309,38 @@ $(function () {
   $('#heatmapContainer').find('.heatmap-canvas').css('background-repeat', 'no-repeat');
   $('#heatmapContainer').find('.heatmap-canvas').css('background-size', '100% auto');
 
+  var donutChartCanvas2 = $('#bigSmallVehicle').get(0).getContext('2d');
+  var donutData2        = {
+    labels: ['Small Vehicle', 'Big Vehicle'],
+    datasets: [
+      {
+        data: [0,0],
+        backgroundColor : ['#28a745', '#ffc107'],
+      }
+    ]
+  }
+  var donutOptions2     = {maintainAspectRatio : false, responsive : true}
+  var passedInGroundPie = new Chart(donutChartCanvas2, {type: 'doughnut', data: donutData2, options: donutOptions2});
+
   $.post('php/getmonthly.php', {startDate: formatDate(moment().subtract(29, 'days')) + " 00:00:00", endDate: formatDate(moment()) + " 23:59:59"}, function(data){
     var obj = JSON.parse(data);
 
     if(obj.status === 'success'){
+      E1Big = obj.E1Big;
+      E1Small = obj.E1Small;
+      E2Big = obj.E2Big;
+      E2Small = obj.E2Small;
+      E3Big = obj.E3Big;
+      E3Small = obj.E3Small;
+      E5Big = obj.E5Big;
+      E5Small = obj.E5Small;
+      C1Big = obj.C1Big;
+      C1Small = obj.C1Small;
+      C2Big = obj.C2Big;
+      C2Small = obj.C2Small;
+      C3Big = obj.C3Big;
+      C3Small = obj.C3Small;
+
       heatmap.setData({
         max: 100,
         min: 0,
