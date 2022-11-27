@@ -166,6 +166,7 @@ else{
 <script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
 <script src="plugins/heatmap/build/heatmap.js"></script>
 <script src="plugins/heatmap/plugins/leaflet-heatmap/leaflet-heatmap.js"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAjjbv6izl-JmncmbItl_S2_6OetztzjF8"></script>
 <script>
 var ouStartDate = "";
 var ouEndDate = "";
