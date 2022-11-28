@@ -42,6 +42,44 @@
     </div>
     <div class="col-lg-12">
       <div class="card">
+        <div class="card-header border-0">
+          <div class="d-flex justify-content-between">
+            <h3 class="card-title">PH Values By Zone</h3>
+            <!--a href="javascript:void(0);" onclick="report('passedingroundmonthly')">View Report</a-->
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="chart">
+            <canvas id="phValueByZone" style="min-height: 250px; height: 300px; max-height: 300px; max-width: 100%;"></canvas>
+          </div>
+          <!--div class="d-flex flex-row justify-content-end">
+            <span class="mr-2"><i class="fas fa-square" style="color: #f4a522"></i> In</span>
+            <span><i class="fas fa-square" style="color: #6092cd;"></i> Passing By</span>
+          </div-->
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-12">
+      <div class="card">
+        <div class="card-header border-0">
+          <div class="d-flex justify-content-between">
+            <h3 class="card-title">Humidity By Zone (%)</h3>
+            <!--a href="javascript:void(0);" onclick="report('passedingroundmonthly')">View Report</a-->
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="chart">
+            <canvas id="humidityValueByZone" style="min-height: 250px; height: 300px; max-height: 300px; max-width: 100%;"></canvas>
+          </div>
+          <!--div class="d-flex flex-row justify-content-end">
+            <span class="mr-2"><i class="fas fa-square" style="color: #f4a522"></i> In</span>
+            <span><i class="fas fa-square" style="color: #6092cd;"></i> Passing By</span>
+          </div-->
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-12">
+      <div class="card">
         <div class="card-header">
           <h3 class="card-title">Heatmap</h3>
         </div>
@@ -50,6 +88,22 @@
             <div id="heatmapContainer" style="width:100%; height:800px;"></div>
           </div>
         </div>
+      </div>
+    </div>
+    <div class="col-lg-12">
+      <div class="card">
+        <div class="card-header border-0">
+          <div class="d-flex justify-content-between">
+            <h3 class="card-title">Total Time Spent of Harvesters By Zone (Hours)</h3>
+            <!--a href="javascript:void(0);" onclick="report('dastotalvisitorsdaily')">View Report</a-->
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="chart">
+            <canvas id="totalTimeSpentByZone" style="min-height: 250px; height: 200px; max-height: 300px; max-width: 100%;"></canvas>
+          </div>
+        </div>
+        <!-- /.card-body -->
       </div>
     </div>
   </div>
@@ -176,7 +230,7 @@ $(function () {
               }, 
               {
                 x: 0.4 * width >> 0,
-                y: 0.75 * height >> 0,
+                y: 0.70 * height >> 0,
                 value: (obj.totalC1 / obj.totalCount) * 1000,
                 radius: 100
               },
@@ -193,8 +247,8 @@ $(function () {
                 radius: 100
               },
               {
-                x: 0.35 * width >> 0,
-                y: 0.68 * height >> 0,
+                x: 0.38 * width >> 0,
+                y: 0.50 * height >> 0,
                 value: (obj.totalC3 / obj.totalCount) * 1000,
                 radius: 100
               },
@@ -206,12 +260,20 @@ $(function () {
               }, 
               {
                 x: 0.33 * width >> 0,
-                y: 0.7 * height >> 0,
+                y: 0.65 * height >> 0,
                 value: (obj.totalC2 / obj.totalCount) * 1000,
                 radius: 100
               }
             ]
           });
+        
+          removeData(lineChart);
+          removeData(lineChart2);
+
+          for(var i=0; i<obj.message.length; i++){
+            addLineChartData(lineChart, obj.message[i].Date, obj.message[i].C1Ph, obj.message[i].C2Ph, obj.message[i].C3Ph);
+            addLineChartData(lineChart2, obj.message[i].Date, obj.message[i].C1Humidity, obj.message[i].C2Humidity, obj.message[i].C3Humidity);
+          }
         }
         else if(obj.status === 'failed'){
           toastr["error"](obj.message, "Failed:");
@@ -246,7 +308,7 @@ $(function () {
       addData(passedInGroundPie, 'Big Vehicle', E5Big);
       $('#editModal').modal('show');
     }
-    else if((ev.layerX <= (0.4*width + 50) && (0.4*width - 50) <= ev.layerX) && (ev.layerY <= (0.75 * height + 50) && (0.75 * height - 50) <= ev.layerY)){
+    else if((ev.layerX <= (0.4*width + 50) && (0.4*width - 50) <= ev.layerX) && (ev.layerY <= (0.7 * height + 50) && (0.7 * height - 50) <= ev.layerY)){
       $('#editModal').find('#title').html("C1");
       $('#editModal').find('#bigVehicle').html(C1Big);
       $('#editModal').find('#smallVehicle').html(C1Small);
@@ -273,7 +335,7 @@ $(function () {
       addData(passedInGroundPie, 'Big Vehicle', E3Big);
       $('#editModal').modal('show');
     }
-    else if((ev.layerX <= (0.38*width + 50) && (0.38*width - 50) <= ev.layerX) && (ev.layerY <= (0.55 * height + 50) && (0.55 * height - 50) <= ev.layerY)){
+    else if((ev.layerX <= (0.38*width + 50) && (0.38*width - 50) <= ev.layerX) && (ev.layerY <= (0.5 * height + 50) && (0.5 * height - 50) <= ev.layerY)){
       $('#editModal').find('#title').html("C3");
       $('#editModal').find('#bigVehicle').html(C3Big);
       $('#editModal').find('#smallVehicle').html(C3Small);
@@ -291,7 +353,7 @@ $(function () {
       addData(passedInGroundPie, 'Big Vehicle', E1Big);
       $('#editModal').modal('show');
     }
-    else if((ev.layerX <= (0.33*width + 50) && (0.33*width - 50) <= ev.layerX) && (ev.layerY <= (0.7 * height + 50) && (0.7 * height - 50) <= ev.layerY)){
+    else if((ev.layerX <= (0.33*width + 50) && (0.33*width - 50) <= ev.layerX) && (ev.layerY <= (0.65 * height + 50) && (0.65 * height - 50) <= ev.layerY)){
       $('#editModal').find('#title').html("C2");
       $('#editModal').find('#bigVehicle').html(C2Big);
       $('#editModal').find('#smallVehicle').html(C2Small);
@@ -321,6 +383,96 @@ $(function () {
   }
   var donutOptions2     = {maintainAspectRatio : false, responsive : true}
   var passedInGroundPie = new Chart(donutChartCanvas2, {type: 'doughnut', data: donutData2, options: donutOptions2});
+
+  // Start: Bar cahrt
+  var barChartCanvas = $('#totalTimeSpentByZone').get(0).getContext('2d');
+  var barChartData = {
+    labels  : ['C1', 'C2', 'C3', 'E1', 'E2', 'E3', 'E4', 'E5'],
+    datasets: [
+      {
+        label               : '212248',
+        backgroundColor     : 'rgba(244, 165, 34, 0.9)',
+        borderColor         : 'rgba(244, 165, 34, 0.8)',
+        pointRadius          : false,
+        pointColor          : '#f4a522',
+        pointStrokeColor    : 'rgba(244, 165, 34, 1)',
+        pointHighlightFill  : '#fff',
+        pointHighlightStroke: 'rgba(244, 165, 34, 1)',
+        data                : [2.5, 3, 2, 1, 1, 0.5, 0, 0]
+      },
+      {
+        label               : '561973',
+        backgroundColor     : 'rgba(96, 146, 205, 1)',
+        borderColor         : 'rgba(96, 146, 205, 1)',
+        pointRadius         : false,
+        pointColor          : 'rgba(96, 146, 205, 1)',
+        pointStrokeColor    : '#6092cd',
+        pointHighlightFill  : '#fff',
+        pointHighlightStroke: 'rgba(96, 146, 205, 1)',
+        data                : [3, 3.5, 0.5, 0.5, 0, 0, 0, 0]
+      }
+    ]
+  };
+
+  var barChartOptions = {responsive: true, maintainAspectRatio: false, datasetFill: false};
+  var barChart = new Chart(barChartCanvas, {type: 'bar', data: barChartData, options: barChartOptions});
+  //End: BAR CHART
+
+  // Start: LINE CHART 
+  var lineChartCanvas = $('#phValueByZone').get(0).getContext('2d');
+  var lineChartCanvas2 = $('#humidityValueByZone').get(0).getContext('2d');
+  var lineChartOptions = {maintainAspectRatio : false, responsive : true, datasetFill: false};
+  var lineChartData = {
+    labels  : ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+    datasets: [
+    {
+        label               : 'C1',
+        backgroundColor     : 'rgba(244, 165, 34, 0.9)',
+        borderColor         : 'rgba(244, 165, 34, 0.8)',
+        pointRadius          : false,
+        pointColor          : '#f4a522',
+        pointStrokeColor    : 'rgba(244, 165, 34, 1)',
+        pointHighlightFill  : '#fff',
+        pointHighlightStroke: 'rgba(244, 165, 34, 1)',
+        fill                : false,
+        data                : [1, 1, 2, 0, 0, 0, 0]
+      },
+      {
+        label               : 'C2',
+        backgroundColor     : 'rgba(96, 146, 205, 1)',
+        borderColor         : 'rgba(96, 146, 205, 1)',
+        pointRadius         : false,
+        pointColor          : 'rgba(96, 146, 205, 1)',
+        pointStrokeColor    : '#6092cd',
+        pointHighlightFill  : '#fff',
+        pointHighlightStroke: 'rgba(96, 146, 205, 1)',
+        fill                : false,
+        data                : [0, 0, 0, 0, 0, 0, 0]
+      },
+      {
+        label               : 'C3',
+        backgroundColor     : 'rgba(97, 181, 70, 0.9)',
+        borderColor         : 'rgba(97, 181, 70, 0.8)',
+        pointRadius          : false,
+        pointColor          : '#61b546',
+        pointStrokeColor    : 'rgba(97, 181, 70, 1)',
+        pointHighlightFill  : '#fff',
+        pointHighlightStroke: 'rgba(97, 181, 70, 1)',
+        fill                : false,
+        data                : [0, 0, 0, 0, 0, 0, 0]
+      }
+    ]
+  };
+
+  var lineChart = new Chart(lineChartCanvas, {type: 'line', data: lineChartData, options: lineChartOptions});
+  var lineChart2 = new Chart(lineChartCanvas2, {type: 'line', data: lineChartData, options: lineChartOptions});
+  
+  /*var passedInLvl1Daily = new Chart(lineChartCanvas4, {
+    type: 'line',
+    data: lineChartData2,
+    options: lineChartOptions2
+  });*/
+  //End: LINE CHART
 
   $.post('php/getmonthly.php', {startDate: formatDate(moment().subtract(29, 'days')) + " 00:00:00", endDate: formatDate(moment()) + " 23:59:59"}, function(data){
     var obj = JSON.parse(data);
@@ -353,7 +505,7 @@ $(function () {
           }, 
           {
             x: 0.4 * width >> 0,
-            y: 0.75 * height >> 0,
+            y: 0.70 * height >> 0,
             value: (obj.totalC1 / obj.totalCount) * 1000,
             radius: 100
           },
@@ -371,7 +523,7 @@ $(function () {
           },
           {
             x: 0.38 * width >> 0,
-            y: 0.55 * height >> 0,
+            y: 0.50 * height >> 0,
             value: (obj.totalC3 / obj.totalCount) * 1000,
             radius: 100
           },
@@ -383,12 +535,20 @@ $(function () {
           }, 
           {
             x: 0.33 * width >> 0,
-            y: 0.7 * height >> 0,
+            y: 0.65 * height >> 0,
             value: (obj.totalC2 / obj.totalCount) * 1000,
             radius: 100
           }
         ]
       });
+    
+      removeData(lineChart);
+      removeData(lineChart2);
+
+      for(var i=0; i<obj.message.length; i++){
+        addLineChartData(lineChart, obj.message[i].Date, obj.message[i].C1Ph, obj.message[i].C2Ph, obj.message[i].C3Ph);
+        addLineChartData(lineChart2, obj.message[i].Date, obj.message[i].C1Humidity, obj.message[i].C2Humidity, obj.message[i].C3Humidity);
+      }
     }
     else if(obj.status === 'failed'){
       toastr["error"](obj.message, "Failed:");
@@ -399,4 +559,3 @@ $(function () {
   });
 });
 </script>
-  

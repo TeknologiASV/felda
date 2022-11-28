@@ -58,7 +58,13 @@ if(isset($_POST['startDate'], $_POST['endDate'])){
                         'E5Count' => 0,
                         'C1Count' => 0,
                         'C2Count' => 0,
-                        'C3Count' => 0
+                        'C3Count' => 0,
+                        'C1Ph' => 0,
+                        'C2Ph' => 0,
+                        'C3Ph' => 0,
+                        'C1Humidity' => 0,
+                        'C2Humidity' => 0,
+                        'C3Humidity' => 0
                     );
 
                     array_push($dateBar, substr($row['Rec_time'], 0, 10));
@@ -66,6 +72,13 @@ if(isset($_POST['startDate'], $_POST['endDate'])){
 
                 $totalCount = $totalCount + (int)$row['Big_car'] + (int)$row['Small_car'];
                 $key = array_search(substr($row['Rec_time'], 0, 10), $dateBar);
+
+                $message[$key]['C1Ph'] = rand(0,14);
+                $message[$key]['C2Ph'] = rand(0,14);
+                $message[$key]['C3Ph'] = rand(0,14);
+                $message[$key]['C1Humidity'] = rand(10,100);
+                $message[$key]['C2Humidity'] = rand(10,100);
+                $message[$key]['C3Humidity'] = rand(10,100);
 
                 if($row['Node_name'] == 'c1'){
                     $message[$key]['C1Count'] += (int)$row['Big_car'];

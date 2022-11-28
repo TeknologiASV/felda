@@ -247,10 +247,11 @@ function addBarChartData(chart, label, data) {
   chart.update();
 }
 
-function addLineChartData(chart, label, data, data2) {
+function addLineChartData(chart, label, data, data2, data3) {
   chart.data.labels.push(label);
   chart.data.datasets[0].data.push(data);
   chart.data.datasets[1].data.push(data2);
+  chart.data.datasets[2].data.push(data3);
   chart.update();
 }
 
