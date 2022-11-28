@@ -171,43 +171,43 @@ $(function () {
               {
                 x: 0.53 * width >> 0,
                 y: 0.75 * height >> 0,
-                value: (obj.totalE1 / obj.totalCount) * 1000,
+                value: (obj.totalE5 / obj.totalCount) * 1000,
                 radius: 100
               }, 
               {
                 x: 0.4 * width >> 0,
                 y: 0.75 * height >> 0,
-                value: (obj.totalE2 / obj.totalCount) * 1000,
+                value: (obj.totalC1 / obj.totalCount) * 1000,
                 radius: 100
               },
               {
                 x: 0.35 * width >> 0,
                 y: 0.28 * height >> 0,
-                value: (obj.totalE3 / obj.totalCount) * 1000,
+                value: (obj.totalE2 / obj.totalCount) * 1000,
                 radius: 100
               }, 
               {
-                x: 0.18 * width >> 0,
-                y: 0.15 * height >> 0,
-                value: (obj.totalE5 / obj.totalCount) * 1000,
+                x: 0.10 * width >> 0,
+                y: 0.05 * height >> 0,
+                value: (obj.totalE3 / obj.totalCount) * 1000,
                 radius: 100
               },
               {
-                x: 0.7 * width >> 0,
-                y: 0.93 * height >> 0,
-                value: (obj.totalC1 / obj.totalCount) * 1000,
+                x: 0.35 * width >> 0,
+                y: 0.68 * height >> 0,
+                value: (obj.totalC3 / obj.totalCount) * 1000,
                 radius: 100
-              }, 
+              },
               {
                 x: 0.63 * width >> 0,
                 y: 0.8 * height >> 0,
-                value: (obj.totalC2 / obj.totalCount) * 1000,
+                value: (obj.totalE1 / obj.totalCount) * 1000,
                 radius: 100
               }, 
               {
                 x: 0.33 * width >> 0,
                 y: 0.7 * height >> 0,
-                value: (obj.totalC3 / obj.totalCount) * 1000,
+                value: (obj.totalC2 / obj.totalCount) * 1000,
                 radius: 100
               }
             ]
@@ -238,33 +238,6 @@ $(function () {
 
   document.querySelector('#heatmapContainerWrapper').onclick = function(ev) {
     if((ev.layerX <= (0.53*width + 50) && (0.53*width - 50) <= ev.layerX) && (ev.layerY <= (0.75 * height + 50) && (0.75 * height - 50) <= ev.layerY)){
-      $('#editModal').find('#title').html("E1");
-      $('#editModal').find('#bigVehicle').html(E1Big);
-      $('#editModal').find('#smallVehicle').html(E1Small);
-      removeData(passedInGroundPie);
-      addData(passedInGroundPie, 'Small Vehicle', E1Small);
-      addData(passedInGroundPie, 'Big Vehicle', E1Big);
-      $('#editModal').modal('show');
-    }
-    else if((ev.layerX <= (0.4*width + 50) && (0.4*width - 50) <= ev.layerX) && (ev.layerY <= (0.75 * height + 50) && (0.75 * height - 50) <= ev.layerY)){
-      $('#editModal').find('#title').html("E2");
-      $('#editModal').find('#bigVehicle').html(E2Big);
-      $('#editModal').find('#smallVehicle').html(E2Small);
-      removeData(passedInGroundPie);
-      addData(passedInGroundPie, 'Small Vehicle', E2Small);
-      addData(passedInGroundPie, 'Big Vehicle', E2Big);
-      $('#editModal').modal('show');
-    }
-    else if((ev.layerX <= (0.35*width + 50) && (0.35*width - 50) <= ev.layerX) && (ev.layerY <= (0.28 * height + 50) && (0.28 * height - 50) <= ev.layerY)){
-      $('#editModal').find('#title').html("E3");
-      $('#editModal').find('#bigVehicle').html(E3Big);
-      $('#editModal').find('#smallVehicle').html(E3Small);
-      removeData(passedInGroundPie);
-      addData(passedInGroundPie, 'Small Vehicle', E3Small);
-      addData(passedInGroundPie, 'Big Vehicle', E3Big);
-      $('#editModal').modal('show');
-    }
-    else if((ev.layerX <= (0.18*width + 50) && (0.18*width - 50) <= ev.layerX) && (ev.layerY <= (0.15 * height + 50) && (0.15 * height - 50) <= ev.layerY)){
       $('#editModal').find('#title').html("E5");
       $('#editModal').find('#bigVehicle').html(E5Big);
       $('#editModal').find('#smallVehicle').html(E5Small);
@@ -273,7 +246,7 @@ $(function () {
       addData(passedInGroundPie, 'Big Vehicle', E5Big);
       $('#editModal').modal('show');
     }
-    else if((ev.layerX <= (0.7*width + 50) && (0.7*width - 50) <= ev.layerX) && (ev.layerY <= (0.93 * height + 50) && (0.93 * height - 50) <= ev.layerY)){
+    else if((ev.layerX <= (0.4*width + 50) && (0.4*width - 50) <= ev.layerX) && (ev.layerY <= (0.75 * height + 50) && (0.75 * height - 50) <= ev.layerY)){
       $('#editModal').find('#title').html("C1");
       $('#editModal').find('#bigVehicle').html(C1Big);
       $('#editModal').find('#smallVehicle').html(C1Small);
@@ -282,22 +255,49 @@ $(function () {
       addData(passedInGroundPie, 'Big Vehicle', C1Big);
       $('#editModal').modal('show');
     }
-    else if((ev.layerX <= (0.63*width + 50) && (0.63*width - 50) <= ev.layerX) && (ev.layerY <= (0.8 * height + 50) && (0.8 * height - 50) <= ev.layerY)){
-      $('#editModal').find('#title').html("C2");
-      $('#editModal').find('#bigVehicle').html(C2Big);
-      $('#editModal').find('#smallVehicle').html(C2Small);
+    else if((ev.layerX <= (0.35*width + 50) && (0.35*width - 50) <= ev.layerX) && (ev.layerY <= (0.28 * height + 50) && (0.28 * height - 50) <= ev.layerY)){
+      $('#editModal').find('#title').html("E2");
+      $('#editModal').find('#bigVehicle').html(E2Big);
+      $('#editModal').find('#smallVehicle').html(E2Small);
       removeData(passedInGroundPie);
-      addData(passedInGroundPie, 'Small Vehicle', C2Small);
-      addData(passedInGroundPie, 'Big Vehicle', C2Big);
+      addData(passedInGroundPie, 'Small Vehicle', E2Small);
+      addData(passedInGroundPie, 'Big Vehicle', E2Big);
       $('#editModal').modal('show');
     }
-    else if((ev.layerX <= (0.33*width + 50) && (0.33*width - 50) <= ev.layerX) && (ev.layerY <= (0.7 * height + 50) && (0.7 * height - 50) <= ev.layerY)){
+    else if((ev.layerX <= (0.10*width + 50) && (0.10*width - 50) <= ev.layerX) && (ev.layerY <= (0.05 * height + 50) && (0.05 * height - 50) <= ev.layerY)){
+      $('#editModal').find('#title').html("E3");
+      $('#editModal').find('#bigVehicle').html(E3Big);
+      $('#editModal').find('#smallVehicle').html(E3Small);
+      removeData(passedInGroundPie);
+      addData(passedInGroundPie, 'Small Vehicle', E3Small);
+      addData(passedInGroundPie, 'Big Vehicle', E3Big);
+      $('#editModal').modal('show');
+    }
+    else if((ev.layerX <= (0.38*width + 50) && (0.38*width - 50) <= ev.layerX) && (ev.layerY <= (0.55 * height + 50) && (0.55 * height - 50) <= ev.layerY)){
       $('#editModal').find('#title').html("C3");
       $('#editModal').find('#bigVehicle').html(C3Big);
       $('#editModal').find('#smallVehicle').html(C3Small);
       removeData(passedInGroundPie);
       addData(passedInGroundPie, 'Small Vehicle', C3Small);
       addData(passedInGroundPie, 'Big Vehicle', C3Big);
+      $('#editModal').modal('show');
+    }
+    else if((ev.layerX <= (0.63*width + 50) && (0.63*width - 50) <= ev.layerX) && (ev.layerY <= (0.8 * height + 50) && (0.8 * height - 50) <= ev.layerY)){
+      $('#editModal').find('#title').html("E1");
+      $('#editModal').find('#bigVehicle').html(E1Big);
+      $('#editModal').find('#smallVehicle').html(E1Small);
+      removeData(passedInGroundPie);
+      addData(passedInGroundPie, 'Small Vehicle', E1Small);
+      addData(passedInGroundPie, 'Big Vehicle', E1Big);
+      $('#editModal').modal('show');
+    }
+    else if((ev.layerX <= (0.33*width + 50) && (0.33*width - 50) <= ev.layerX) && (ev.layerY <= (0.7 * height + 50) && (0.7 * height - 50) <= ev.layerY)){
+      $('#editModal').find('#title').html("C2");
+      $('#editModal').find('#bigVehicle').html(C2Big);
+      $('#editModal').find('#smallVehicle').html(C2Small);
+      removeData(passedInGroundPie);
+      addData(passedInGroundPie, 'Small Vehicle', C2Small);
+      addData(passedInGroundPie, 'Big Vehicle', C2Big);
       $('#editModal').modal('show');
     }
   };
@@ -348,43 +348,43 @@ $(function () {
           {
             x: 0.53 * width >> 0,
             y: 0.75 * height >> 0,
-            value: (obj.totalE1 / obj.totalCount) * 1000,
+            value: (obj.totalE5 / obj.totalCount) * 1000,
             radius: 100
           }, 
           {
             x: 0.4 * width >> 0,
             y: 0.75 * height >> 0,
-            value: (obj.totalE2 / obj.totalCount) * 1000,
+            value: (obj.totalC1 / obj.totalCount) * 1000,
             radius: 100
           },
           {
             x: 0.35 * width >> 0,
             y: 0.28 * height >> 0,
-            value: (obj.totalE3 / obj.totalCount) * 1000,
+            value: (obj.totalE2 / obj.totalCount) * 1000,
             radius: 100
           }, 
           {
-            x: 0.18 * width >> 0,
-            y: 0.15 * height >> 0,
-            value: (obj.totalE5 / obj.totalCount) * 1000,
+            x: 0.10 * width >> 0,
+            y: 0.05 * height >> 0,
+            value: (obj.totalE3 / obj.totalCount) * 1000,
             radius: 100
           },
           {
-            x: 0.7 * width >> 0,
-            y: 0.93 * height >> 0,
-            value: (obj.totalC1 / obj.totalCount) * 1000,
+            x: 0.38 * width >> 0,
+            y: 0.55 * height >> 0,
+            value: (obj.totalC3 / obj.totalCount) * 1000,
             radius: 100
-          }, 
+          },
           {
             x: 0.63 * width >> 0,
             y: 0.8 * height >> 0,
-            value: (obj.totalC2 / obj.totalCount) * 1000,
+            value: (obj.totalE1 / obj.totalCount) * 1000,
             radius: 100
           }, 
           {
             x: 0.33 * width >> 0,
             y: 0.7 * height >> 0,
-            value: (obj.totalC3 / obj.totalCount) * 1000,
+            value: (obj.totalC2 / obj.totalCount) * 1000,
             radius: 100
           }
         ]

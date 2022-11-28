@@ -97,7 +97,7 @@
             </table>
           </div>
           <div class="col-8">
-            <div id="googleMap" style="height: 100%;"></div>
+            <div id="googleMap" style="height: 500px;"></div>
           </div>
         </div>
       </div>
@@ -114,6 +114,7 @@
 var trackers;
 var map;
 var markers = [];
+var polylines = [];
 
 $(function () {
   var startDate = moment().subtract(29, 'days');
@@ -301,27 +302,25 @@ function view(i) {
       rows = rows + '<td>' + (j+1).toString() + '</td><td>'+ trackers[i].Path[j].Date +'</td><td>'+ trackers[i].Path[j].Location +'</td></tr>';     
     
       if(trackers[i].Path[j].Location == 'e1'){
-        addMarker(new google.maps.LatLng(3.331373596935261, 103.00790805717071));
-        lat = 0;
-        lng = 0;
+        addMarker(new google.maps.LatLng(3.3302596829132978, 103.01434535857689));
       }
       else if(trackers[i].Path[j].Location == 'e2'){
-        addMarker(new google.maps.LatLng(3.332230453017469, 102.99846668177499));
+        addMarker(new google.maps.LatLng(3.3508240459167102, 102.996406745325));
       }
       else if(trackers[i].Path[j].Location == 'e3'){
-        addMarker(new google.maps.LatLng(3.3511667816462616, 102.99606342258333));
+        addMarker(new google.maps.LatLng(3.3612774316077645, 102.97966976166896));
       }
       else if(trackers[i].Path[j].Location == 'e5'){
-        addMarker(new google.maps.LatLng(3.3578501043621842, 102.98610706307512));
+        addMarker(new google.maps.LatLng(3.330773797233892, 103.00747890374363));
       }
       else if(trackers[i].Path[j].Location == 'c1'){
-        addMarker(new google.maps.LatLng(3.323062054257889, 103.01923770764557));
+        addMarker(new google.maps.LatLng(3.332230453017469, 102.99795169766249));
       }
       else if(trackers[i].Path[j].Location == 'c2'){
-        addMarker(new google.maps.LatLng(3.3301739971671025, 103.01383037446439));
+        addMarker(new google.maps.LatLng(3.3336014211970255, 102.99391765544796));
       }
       else if(trackers[i].Path[j].Location == 'c3'){
-        addMarker(new google.maps.LatLng(3.3341155337717763, 102.99408931681877));
+        addMarker(new google.maps.LatLng(3.3383997947728696, 102.99700756012292));
       }
 
       if(j>0){
@@ -329,38 +328,38 @@ function view(i) {
         lineCoordinates.push(new google.maps.LatLng(lat, lng));
 
         if(trackers[i].Path[j].Location == 'e1'){
-          lat = 3.331373596935261;
-          lng = 103.00790805717071;
+          lat = 3.3302596829132978;
+          lng = 103.01434535857689;
           lineCoordinates.push(new google.maps.LatLng(lat, lng));
         }
         else if(trackers[i].Path[j].Location == 'e2'){
-          lat = 3.332230453017469;
-          lng = 102.99846668177499;
+          lat = 3.3508240459167102;
+          lng = 102.996406745325;
           lineCoordinates.push(new google.maps.LatLng(lat, lng));
         }
         else if(trackers[i].Path[j].Location == 'e3'){
-          lat = 3.3511667816462616;
-          lng = 102.99606342258333;
+          lat = 3.3612774316077645;
+          lng = 102.97966976166896;
           lineCoordinates.push(new google.maps.LatLng(lat, lng));
         }
         else if(trackers[i].Path[j].Location == 'e5'){
-          lat = 3.3578501043621842;
-          lng = 102.98610706307512;
+          lat = 3.330773797233892;
+          lng = 103.00747890374363;
           lineCoordinates.push(new google.maps.LatLng(lat, lng));
         }
         else if(trackers[i].Path[j].Location == 'c1'){
-          lat = 3.323062054257889;
-          lng = 103.01923770764557;
+          lat = 3.332230453017469;
+          lng = 102.99795169766249;
           lineCoordinates.push(new google.maps.LatLng(lat, lng));
         }
         else if(trackers[i].Path[j].Location == 'c2'){
-          lat = 3.3301739971671025;
-          lng = 103.01383037446439;
+          lat = 3.3336014211970255;
+          lng = 102.99391765544796;
           lineCoordinates.push(new google.maps.LatLng(lat, lng));
         }
         else if(trackers[i].Path[j].Location == 'c3'){
-          lat = 3.3341155337717763;
-          lng = 102.99408931681877;
+          lat = 3.3383997947728696;
+          lng = 102.99700756012292;
           lineCoordinates.push(new google.maps.LatLng(lat, lng));
         }
 
@@ -372,35 +371,37 @@ function view(i) {
           strokeWeight: 2,
           map: map
         });
+
+        polylines.push(line);
       }
       else{
         if(trackers[i].Path[j].Location == 'e1'){
-          lat = 3.331373596935261;
-          lng = 103.00790805717071;
+          lat = 3.3302596829132978;
+          lng = 103.01434535857689;
         }
         else if(trackers[i].Path[j].Location == 'e2'){
-          lat = 3.332230453017469;
-          lng = 102.99846668177499;
+          lat = 3.3508240459167102;
+          lng = 102.996406745325;
         }
         else if(trackers[i].Path[j].Location == 'e3'){
-          lat = 3.3511667816462616;
-          lng = 102.99606342258333;
+          lat = 3.3612774316077645;
+          lng = 102.97966976166896;
         }
         else if(trackers[i].Path[j].Location == 'e5'){
-          lat = 3.3578501043621842;
-          lng = 102.98610706307512;
+          lat = 3.330773797233892;
+          lng = 103.00747890374363;
         }
         else if(trackers[i].Path[j].Location == 'c1'){
-          lat = 3.323062054257889;
-          lng = 103.01923770764557;
+          lat = 3.332230453017469;
+          lng = 102.99795169766249;
         }
         else if(trackers[i].Path[j].Location == 'c2'){
-          lat = 3.3301739971671025;
-          lng = 103.01383037446439;
+          lat = 3.3336014211970255;
+          lng = 102.99391765544796;
         }
         else if(trackers[i].Path[j].Location == 'c3'){
-          lat = 3.3341155337717763;
-          lng = 102.99408931681877;
+          lat = 3.3383997947728696;
+          lng = 102.99700756012292;
         }
       }
     }
@@ -426,6 +427,10 @@ function addMarker(location) {
 function setMapOnAll(map) {
   for (var i = 0; i < markers.length; i++) {
     markers[i].setMap(map);
+  }
+
+  for (var i = 0; i < polylines.length; i++) {
+    polylines[i].setMap(map);
   }
 }
 </script>
