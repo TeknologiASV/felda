@@ -73,9 +73,9 @@ if(isset($_POST['startDate'], $_POST['endDate'])){
                 $totalCount = $totalCount + (int)$row['Big_car'] + (int)$row['Small_car'];
                 $key = array_search(substr($row['Rec_time'], 0, 10), $dateBar);
 
-                $message[$key]['C1Ph'] = rand(0,14);
-                $message[$key]['C2Ph'] = rand(0,14);
-                $message[$key]['C3Ph'] = rand(0,14);
+                $message[$key]['C1Ph'] = rand(5,6);
+                $message[$key]['C2Ph'] = rand(8,9);
+                $message[$key]['C3Ph'] = rand(7,8);
                 $message[$key]['C1Humidity'] = rand(10,100);
                 $message[$key]['C2Humidity'] = rand(10,100);
                 $message[$key]['C3Humidity'] = rand(10,100);

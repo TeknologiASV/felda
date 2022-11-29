@@ -422,6 +422,7 @@ $(function () {
   var lineChartCanvas = $('#phValueByZone').get(0).getContext('2d');
   var lineChartCanvas2 = $('#humidityValueByZone').get(0).getContext('2d');
   var lineChartOptions = {maintainAspectRatio : false, responsive : true, datasetFill: false};
+  var lineChartOptions2 = {maintainAspectRatio : false, responsive : true, datasetFill: false};
   var lineChartData = {
     labels  : ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
     datasets: [
@@ -463,9 +464,50 @@ $(function () {
       }
     ]
   };
+  var lineChartData2 = {
+    labels  : ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+    datasets: [
+    {
+        label               : 'C1',
+        backgroundColor     : 'rgba(244, 165, 34, 0.9)',
+        borderColor         : 'rgba(244, 165, 34, 0.8)',
+        pointRadius          : false,
+        pointColor          : '#f4a522',
+        pointStrokeColor    : 'rgba(244, 165, 34, 1)',
+        pointHighlightFill  : '#fff',
+        pointHighlightStroke: 'rgba(244, 165, 34, 1)',
+        fill                : false,
+        data                : [0, 0, 0, 0, 0, 0, 0]
+      },
+      {
+        label               : 'C2',
+        backgroundColor     : 'rgba(96, 146, 205, 1)',
+        borderColor         : 'rgba(96, 146, 205, 1)',
+        pointRadius         : false,
+        pointColor          : 'rgba(96, 146, 205, 1)',
+        pointStrokeColor    : '#6092cd',
+        pointHighlightFill  : '#fff',
+        pointHighlightStroke: 'rgba(96, 146, 205, 1)',
+        fill                : false,
+        data                : [0, 0, 0, 0, 0, 0, 0]
+      },
+      {
+        label               : 'C3',
+        backgroundColor     : 'rgba(97, 181, 70, 0.9)',
+        borderColor         : 'rgba(97, 181, 70, 0.8)',
+        pointRadius          : false,
+        pointColor          : '#61b546',
+        pointStrokeColor    : 'rgba(97, 181, 70, 1)',
+        pointHighlightFill  : '#fff',
+        pointHighlightStroke: 'rgba(97, 181, 70, 1)',
+        fill                : false,
+        data                : [0, 0, 0, 0, 0, 0, 0]
+      }
+    ]
+  };
 
   var lineChart = new Chart(lineChartCanvas, {type: 'line', data: lineChartData, options: lineChartOptions});
-  var lineChart2 = new Chart(lineChartCanvas2, {type: 'line', data: lineChartData, options: lineChartOptions});
+  var lineChart2 = new Chart(lineChartCanvas2, {type: 'line', data: lineChartData2, options: lineChartOptions2});
   
   /*var passedInLvl1Daily = new Chart(lineChartCanvas4, {
     type: 'line',
