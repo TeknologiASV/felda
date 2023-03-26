@@ -40,24 +40,28 @@ if(isset($_POST['startDate'], $_POST['endDate'], $_POST['harvesterId'])){
                 $key = array_search(substr($row['Rec_time'], 0, 10), $dateBar);
 
                 if(count($message[$key]['Path']) <= 0){
-                    array_push($message[$key]['Path'], array( 
-                        'Date' => substr($row['Rec_time'], 11, 8),
-                        'Location' => $row['Node_name']
-                    ));
-
-                    $current = $row['Node_name'];
-                    $distance = (int)$row['R_m'];
+                    if(substr($row['Rec_time'], 11, 2) >= "05"){
+                        array_push($message[$key]['Path'], array( 
+                            'Date' => substr($row['Rec_time'], 11, 8),
+                            'Location' => $row['Node_name']
+                        ));
+    
+                        $current = $row['Node_name'];
+                        $distance = (int)$row['R_m'];
+                    }
                 }
                 else{
                     if($row['Node_name'] != $current){
-                        if($distance >= (int)$row['R_m']){
-                            array_push($message[$key]['Path'], array( 
-                                'Date' => substr($row['Rec_time'], 11, 8),
-                                'Location' => $row['Node_name']
-                            ));
+                        if(substr($row['Rec_time'], 11, 2) >= "05"){
+                            if($distance >= (int)$row['R_m']){
+                                array_push($message[$key]['Path'], array( 
+                                    'Date' => substr($row['Rec_time'], 11, 8),
+                                    'Location' => $row['Node_name']
+                                ));
 
-                            $current = $row['Node_name'];
-                            $distance = (int)$row['R_m'];
+                                $current = $row['Node_name'];
+                                $distance = (int)$row['R_m'];
+                            }
                         }
                     }
                     else{
@@ -66,8 +70,6 @@ if(isset($_POST['startDate'], $_POST['endDate'], $_POST['harvesterId'])){
                         }
                     }
                 }
-
-                
             }
             
             echo json_encode(
