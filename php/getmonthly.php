@@ -46,6 +46,13 @@ if(isset($_POST['startDate'], $_POST['endDate'])){
             $C2Small = 0;
             $C3Big = 0;
             $C3Small = 0;
+
+            $harvester[] = array('zone' => 'C1', 'Har1' => rand(5,6), 'Har2' => rand(4,5));
+            $harvester[] = array('zone' => 'C2', 'Har1' => rand(15,20), 'Har2' => rand(15,25));
+            $harvester[] = array('zone' => 'C3', 'Har1' => rand(15,25), 'Har2' => rand(10,15));
+            $harvester[] = array('zone' => 'E2', 'Har1' => rand(50,60), 'Har2' => rand(55,65));
+            $harvester[] = array('zone' => 'E3', 'Har1' => rand(55,65), 'Har2' => rand(65,70));
+            $harvester[] = array('zone' => 'E5', 'Har1' => rand(3,6), 'Har2' => rand(1,3));
             
             while($row = $result->fetch_assoc()) {
                 if(!in_array(substr($row['Rec_time'], 0, 10), $dateBar)){
@@ -64,7 +71,9 @@ if(isset($_POST['startDate'], $_POST['endDate'])){
                         'C3Ph' => 0,
                         'C1Humidity' => 0,
                         'C2Humidity' => 0,
-                        'C3Humidity' => 0
+                        'C3Humidity' => 0,
+                        'E5Big' => 0,
+                        'E5Small' => 0
                     );
 
                     array_push($dateBar, substr($row['Rec_time'], 0, 10));
@@ -130,6 +139,8 @@ if(isset($_POST['startDate'], $_POST['endDate'])){
                 else if($row['Node_name'] == 'e5'){
                     $message[$key]['E5Count'] += (int)$row['Big_car'];
                     $message[$key]['E5Count'] += (int)$row['Small_car'];
+                    $message[$key]['E5Big'] += (int)$row['Big_car'];
+                    $message[$key]['E5Small'] += (int)$row['Small_car'];
                     $E5Big += (int)$row['Big_car'];
                     $E5Small += (int)$row['Small_car'];
                     $totalE5 = $totalE5 + (int)$row['Big_car'] + (int)$row['Small_car'];
@@ -140,6 +151,7 @@ if(isset($_POST['startDate'], $_POST['endDate'])){
                 array(
                     "status" => "success",
                     "message" => $message,
+                    "harvester" => $harvester,
                     "totalE1" => $totalE1,
                     "totalE2" => $totalE2,
                     "totalE3" => $totalE3,

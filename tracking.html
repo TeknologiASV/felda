@@ -91,6 +91,7 @@
                   <th>No.</th>
                   <th>Time</th>
                   <th>Location</th>
+                  <th>Distance (m)</th>
                 </tr>
               </thead>
               <tbody id="pathTrackingDetails"></tbody>
@@ -299,7 +300,7 @@ function view(i) {
 
   if(trackers[i].Path != null && trackers[i].Path.length > 0){
     for(var j=0; j< trackers[i].Path.length; j++){
-      rows = rows + '<td>' + (j+1).toString() + '</td><td>'+ trackers[i].Path[j].Date +'</td><td>'+ trackers[i].Path[j].Location +'</td></tr>';     
+      rows = rows + '<td>' + (j+1).toString() + '</td><td>'+ trackers[i].Path[j].Date +'</td><td>'+ trackers[i].Path[j].Location +'</td><td>'+ trackers[i].Path[j].Distance +'</td></tr>';     
     
       if(trackers[i].Path[j].Location == 'e1'){
         addMarker(new google.maps.LatLng(3.3302596829132978, 103.01434535857689));

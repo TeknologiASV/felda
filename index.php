@@ -241,9 +241,10 @@ function addStackChartData(chart, label, data, data2, data3, data4, data5, data6
   chart.update();
 }
 
-function addBarChartData(chart, label, data) {
+function addBarChartData(chart, label, data, data2) {
   chart.data.labels.push(label);
   chart.data.datasets[0].data.push(data);
+  chart.data.datasets[1].data.push(data2);
   chart.update();
 }
 

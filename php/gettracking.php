@@ -40,10 +40,11 @@ if(isset($_POST['startDate'], $_POST['endDate'], $_POST['harvesterId'])){
                 $key = array_search(substr($row['Rec_time'], 0, 10), $dateBar);
 
                 if(count($message[$key]['Path']) <= 0){
-                    if(substr($row['Rec_time'], 11, 2) >= "05"){
+                    if(substr($row['Rec_time'], 11, 2) >= "06"){
                         array_push($message[$key]['Path'], array( 
                             'Date' => substr($row['Rec_time'], 11, 8),
-                            'Location' => $row['Node_name']
+                            'Location' => $row['Node_name'],
+                            'Distance' => $row['R_m']
                         ));
     
                         $current = $row['Node_name'];
@@ -52,11 +53,12 @@ if(isset($_POST['startDate'], $_POST['endDate'], $_POST['harvesterId'])){
                 }
                 else{
                     if($row['Node_name'] != $current){
-                        if(substr($row['Rec_time'], 11, 2) >= "05"){
+                        if(substr($row['Rec_time'], 11, 2) >= "06"){
                             if($distance >= (int)$row['R_m']){
                                 array_push($message[$key]['Path'], array( 
                                     'Date' => substr($row['Rec_time'], 11, 8),
-                                    'Location' => $row['Node_name']
+                                    'Location' => $row['Node_name'],
+                                    'Distance' => $row['R_m']
                                 ));
 
                                 $current = $row['Node_name'];
