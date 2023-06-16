@@ -19,11 +19,11 @@
 <div class="content">
   <div class="container-fluid">
     <div class="row">
-      <div class="col-lg-12">
+      <div class="col-lg-8">
         <div class="card">
           <div class="card-body">
             <div class="row">
-              <div class="col-4">
+              <div class="col-6">
                 <div class="form-group">
                   <label>Date range button:</label>
 
@@ -35,16 +35,43 @@
                   </div>
                 </div>
               </div>
-              <div class="col-4">
+              <div class="col-6">
                 <div class="form-group">
                   <label>Harvesrter ID:</label>
                   <select class="form-control" id="harvesterId">
-                    <option value="212248">212248</option>
-                    <option value="561973">561973</option>
+                    <option value="212248">Harvester 1 (212248)</option>
+                    <option value="561973">Harvester 2 (561973)</option>
                   </select>
                 </div>
               </div>
             </div>
+            <div class="row">
+              <div class="col-6" id="harverster1">
+                <div class="info-box">
+                  <span class="info-box-icon bg-success"><i class="fas fa-route"></i></span>
+                  <div class="info-box-content">
+                    <span class="info-box-text">Moving</span>
+                    <span class="info-box-number" id="bigVehicle">0</span>
+                  </div>
+                </div>
+              </div>
+              <div class="col-6" id="harverster2">
+                <div class="info-box">
+                  <span class="info-box-icon bg-warning"><i class="fas fa-stop"></i></span>
+                  <div class="info-box-content">
+                    <span class="info-box-text">Not Moving</span>
+                    <span class="info-box-number" id="smallVehicle">0</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-4">
+        <div class="card">
+          <div class="card-body">
+            <canvas id="bigSmallVehicle" style="min-height: 180px; height: 180px; max-height: 180px; max-width: 100%;"></canvas>
           </div>
         </div>
       </div>
@@ -113,9 +140,11 @@
 
 <script>
 var trackers;
+var trackers2;
 var map;
 var markers = [];
 var polylines = [];
+var curvature = 0.5; // how curvy to make the arc
 
 $(function () {
   var startDate = moment().subtract(29, 'days');
@@ -170,12 +199,29 @@ $(function () {
 
         if(obj.status === 'success'){
           trackers = obj.message;
+          trackers2 = obj.message;
+          var E5Small = 0;
+          var E5Big = 0;
           $('#pathTracking').html('');
 
           for(var i=0; i<obj.message.length; i++){
             var rows = '<tr><td>' + (i+1).toString() + '</td><td>'+ obj.message[i].Date +'</td><td>';
             
             if(obj.message[i].Path != null && obj.message[i].Path.length > 0){
+              var temp =  obj.message[i].Path.filter(u => {
+                if(u.Location == 'c1' || u.Location == 'c2' || u.Location == 'c3' || u.Location == 'e5')
+                  return true;
+
+                return false;
+              });
+
+              if(temp.length > 0){
+                E5Small += 1;
+              }
+              else{
+                E5Big += 1;
+              }
+
               for(var j=0; j< obj.message[i].Path.length; j++){
                 if(j == 0){
                   rows = rows + obj.message[i].Path[j].Location;
@@ -193,6 +239,11 @@ $(function () {
             }
 
             $('#pathTracking').append(rows);
+            removeData(passedInGroundPie);
+            addData(passedInGroundPie, 'Moving', E5Small);
+            addData(passedInGroundPie, 'Not Moving', E5Big);
+            $('#bigVehicle').text(E5Small);
+            $('#smallVehicle').text(E5Big);
           }
         }
         else if(obj.status === 'failed'){
@@ -215,12 +266,29 @@ $(function () {
 
       if(obj.status === 'success'){
         trackers = obj.message;
+        trackers2 = obj.message;
+        var E5Small = 0;
+        var E5Big = 0;
         $('#pathTracking').html('');
 
         for(var i=0; i<obj.message.length; i++){
           var rows = '<tr><td>' + (i+1).toString() + '</td><td>'+ obj.message[i].Date +'</td><td>';
           
           if(obj.message[i].Path != null && obj.message[i].Path.length > 0){
+            var temp =  obj.message[i].Path.filter(u => {
+              if(u.Location == 'c1' || u.Location == 'c2' || u.Location == 'c3' || u.Location == 'e5')
+                return true;
+
+              return false;
+            });
+
+            if(temp.length > 0){
+              E5Small += 1;
+            }
+            else{
+              E5Big += 1;
+            }
+
             for(var j=0; j< obj.message[i].Path.length; j++){
               if(j == 0){
                 rows = rows + obj.message[i].Path[j].Location;
@@ -249,6 +317,103 @@ $(function () {
     });
   });
 
+  var donutChartCanvas2 = $('#bigSmallVehicle').get(0).getContext('2d');
+  var donutData2        = {
+    labels: ['Moving', 'Not Moving'],
+    datasets: [
+      {
+        data: [0,0],
+        backgroundColor : ['#28a745', '#ffc107'],
+      }
+    ]
+  }
+  var donutOptions2     = {maintainAspectRatio : false, responsive : true}
+  var passedInGroundPie = new Chart(donutChartCanvas2, {type: 'doughnut', data: donutData2, options: donutOptions2});
+
+  $('#harverster1').on('click', function(){
+    $('#pathTracking').html('');
+    trackers2 = [];
+
+    for(var i=0; i<trackers.length; i++){
+      if(trackers[i].Path != null && trackers[i].Path.length > 0){
+        var temp =  trackers[i].Path.filter(u => {
+          if(u.Location == 'c1' || u.Location == 'c2' || u.Location == 'c3' || u.Location == 'e5')
+            return true;
+
+          return false;
+        });
+
+        if(temp.length > 0){
+          trackers2.push(trackers[i]);
+        }
+      }
+    }
+
+    for(var k=0; k<trackers2.length; k++){
+      var rows = '<tr><td>' + (k+1).toString() + '</td><td>'+ trackers2[k].Date +'</td><td>';
+
+      if(trackers2[k].Path != null && trackers2[k].Path.length > 0){
+        for(var j=0; j< trackers2[k].Path.length; j++){
+          if(j == 0){
+            rows = rows + trackers2[k].Path[j].Location;
+          }
+          else{
+            rows = rows + '->' + trackers2[k].Path[j].Location;
+          }
+        }
+
+        rows = rows + '</td><td><div class="row"><div class="col-3"><button type="button" onclick="view('+k+')" class="btn btn-success btn-sm"><i class="fas fa-eye"></i></button></div></div></td></tr>';
+      }
+      else{
+        rows = rows + '<td></td><td></td></tr>';
+      }
+
+      $('#pathTracking').append(rows);
+    }
+  });
+
+  $('#harverster2').on('click', function(){
+    $('#pathTracking').html('');
+    trackers2 = [];
+
+    for(var i=0; i<trackers.length; i++){
+      if(trackers[i].Path != null && trackers[i].Path.length > 0){
+        var temp =  trackers[i].Path.filter(u => {
+          if(u.Location == 'c1' || u.Location == 'c2' || u.Location == 'c3' || u.Location == 'e5')
+            return true;
+
+          return false;
+        });
+
+        if(temp.length <= 0){
+          trackers2.push(trackers[i]);
+        }
+      }
+    }
+
+    for(var k=0; k<trackers2.length; k++){
+      var rows = '<tr><td>' + (k+1).toString() + '</td><td>'+ trackers2[k].Date +'</td><td>';
+
+      if(trackers2[k].Path != null && trackers2[k].Path.length > 0){
+        for(var j=0; j< trackers2[k].Path.length; j++){
+          if(j == 0){
+            rows = rows + trackers2[k].Path[j].Location;
+          }
+          else{
+            rows = rows + '->' + trackers2[k].Path[j].Location;
+          }
+        }
+
+        rows = rows + '</td><td><div class="row"><div class="col-3"><button type="button" onclick="view('+k+')" class="btn btn-success btn-sm"><i class="fas fa-eye"></i></button></div></div></td></tr>';
+      }
+      else{
+        rows = rows + '<td></td><td></td></tr>';
+      }
+
+      $('#pathTracking').append(rows);
+    }
+  });
+
   $.post('php/gettracking.php', {startDate: formatDate(moment().subtract(29, 'days')) + " 00:00:00", endDate: formatDate(moment()) + " 23:59:59", harvesterId: $('#harvesterId').val()}, function(data){
     startDate = moment().subtract(29, 'days');
     endDate = moment();
@@ -256,12 +421,29 @@ $(function () {
 
     if(obj.status === 'success'){
       trackers = obj.message;
+      trackers2 = obj.message;
+      var E5Small = 0;
+      var E5Big = 0;
       $('#pathTracking').html('');
 
       for(var i=0; i<obj.message.length; i++){
         var rows = '<tr><td>' + (i+1).toString() + '</td><td>'+ obj.message[i].Date +'</td><td>';
         
         if(obj.message[i].Path != null && obj.message[i].Path.length > 0){
+          var temp =  obj.message[i].Path.filter(u => {
+            if(u.Location == 'c1' || u.Location == 'c2' || u.Location == 'c3' || u.Location == 'e5')
+              return true;
+
+            return false;
+          });
+
+          if(temp.length > 0){
+            E5Small += 1;
+          }
+          else{
+            E5Big += 1;
+          }
+
           for(var j=0; j< obj.message[i].Path.length; j++){
             if(j == 0){
               rows = rows + obj.message[i].Path[j].Location;
@@ -279,6 +461,11 @@ $(function () {
         }
 
         $('#pathTracking').append(rows);
+        removeData(passedInGroundPie);
+        addData(passedInGroundPie, 'Moving', E5Small);
+        addData(passedInGroundPie, 'Not Moving', E5Big);
+        $('#bigVehicle').text(E5Small);
+        $('#smallVehicle').text(E5Big);
       }
     }
     else if(obj.status === 'failed'){
@@ -291,36 +478,37 @@ $(function () {
 });
 
 function view(i) {
-  $('#editModal').find('#title').html(trackers[i].Date);
+  $('#editModal').find('#title').html(trackers2[i].Date);
   $('#pathTrackingDetails').html('');
   var rows = '<tr>';
   setMapOnAll(null);
   var lat = 0;
   var lng = 0;
+  var curveControlPoint = new google.maps.LatLng(37.7820, -122.4339);
 
-  if(trackers[i].Path != null && trackers[i].Path.length > 0){
-    for(var j=0; j< trackers[i].Path.length; j++){
-      rows = rows + '<td>' + (j+1).toString() + '</td><td>'+ trackers[i].Path[j].Date +'</td><td>'+ trackers[i].Path[j].Location +'</td><td>'+ trackers[i].Path[j].Distance +'</td></tr>';     
+  if(trackers2[i].Path != null && trackers2[i].Path.length > 0){
+    for(var j=0; j< trackers2[i].Path.length; j++){
+      rows = rows + '<td>' + (j+1).toString() + '</td><td>'+ trackers2[i].Path[j].Date +'</td><td>'+ trackers2[i].Path[j].Location +'</td><td>'+ trackers2[i].Path[j].Distance +'</td></tr>';     
     
-      if(trackers[i].Path[j].Location == 'e1'){
+      if(trackers2[i].Path[j].Location == 'e1'){
         addMarker(new google.maps.LatLng(3.3302596829132978, 103.01434535857689));
       }
-      else if(trackers[i].Path[j].Location == 'e2'){
+      else if(trackers2[i].Path[j].Location == 'e2'){
         addMarker(new google.maps.LatLng(3.3508240459167102, 102.996406745325));
       }
-      else if(trackers[i].Path[j].Location == 'e3'){
+      else if(trackers2[i].Path[j].Location == 'e3'){
         addMarker(new google.maps.LatLng(3.3612774316077645, 102.97966976166896));
       }
-      else if(trackers[i].Path[j].Location == 'e5'){
+      else if(trackers2[i].Path[j].Location == 'e5'){
         addMarker(new google.maps.LatLng(3.330773797233892, 103.00747890374363));
       }
-      else if(trackers[i].Path[j].Location == 'c1'){
+      else if(trackers2[i].Path[j].Location == 'c1'){
         addMarker(new google.maps.LatLng(3.332230453017469, 102.99795169766249));
       }
-      else if(trackers[i].Path[j].Location == 'c2'){
+      else if(trackers2[i].Path[j].Location == 'c2'){
         addMarker(new google.maps.LatLng(3.3336014211970255, 102.99391765544796));
       }
-      else if(trackers[i].Path[j].Location == 'c3'){
+      else if(trackers2[i].Path[j].Location == 'c3'){
         addMarker(new google.maps.LatLng(3.3383997947728696, 102.99700756012292));
       }
 
@@ -328,79 +516,103 @@ function view(i) {
         var lineCoordinates = [];
         lineCoordinates.push(new google.maps.LatLng(lat, lng));
 
-        if(trackers[i].Path[j].Location == 'e1'){
+        if(trackers2[i].Path[j].Location == 'e1'){
           lat = 3.3302596829132978;
           lng = 103.01434535857689;
+          //curveControlPoint = new google.maps.LatLng(3.3420, 103.4339);
           lineCoordinates.push(new google.maps.LatLng(lat, lng));
         }
-        else if(trackers[i].Path[j].Location == 'e2'){
+        else if(trackers2[i].Path[j].Location == 'e2'){
           lat = 3.3508240459167102;
           lng = 102.996406745325;
+          //curveControlPoint = new google.maps.LatLng(3.3420, 103.1339);
           lineCoordinates.push(new google.maps.LatLng(lat, lng));
         }
-        else if(trackers[i].Path[j].Location == 'e3'){
+        else if(trackers2[i].Path[j].Location == 'e3'){
           lat = 3.3612774316077645;
           lng = 102.97966976166896;
+          //curveControlPoint = new google.maps.LatLng(3.3420, 103.1339);
           lineCoordinates.push(new google.maps.LatLng(lat, lng));
         }
-        else if(trackers[i].Path[j].Location == 'e5'){
+        else if(trackers2[i].Path[j].Location == 'e5'){
           lat = 3.330773797233892;
           lng = 103.00747890374363;
+          //curveControlPoint = new google.maps.LatLng(3.3420, 103.2039);
           lineCoordinates.push(new google.maps.LatLng(lat, lng));
         }
-        else if(trackers[i].Path[j].Location == 'c1'){
+        else if(trackers2[i].Path[j].Location == 'c1'){
           lat = 3.332230453017469;
           lng = 102.99795169766249;
+          //curveControlPoint = new google.maps.LatLng(3.3420, 103.1339);
           lineCoordinates.push(new google.maps.LatLng(lat, lng));
         }
-        else if(trackers[i].Path[j].Location == 'c2'){
+        else if(trackers2[i].Path[j].Location == 'c2'){
           lat = 3.3336014211970255;
           lng = 102.99391765544796;
+          //curveControlPoint = new google.maps.LatLng(3.3420, 103.1339);
           lineCoordinates.push(new google.maps.LatLng(lat, lng));
         }
-        else if(trackers[i].Path[j].Location == 'c3'){
+        else if(trackers2[i].Path[j].Location == 'c3'){
           lat = 3.3383997947728696;
           lng = 102.99700756012292;
+          //curveControlPoint = new google.maps.LatLng(3.3420, 103.1339);
           lineCoordinates.push(new google.maps.LatLng(lat, lng));
         }
+        
+        if(trackers2[i].Path[j].Date.toString().substring(0,2) < "12"){
+          var line = new google.maps.Polyline({
+            path: lineCoordinates,
+            geodesic: true,
+            strokeColor: "#FF0000",
+            strokeOpacity: 1.0,
+            strokeWeight: 2,
+            map: map
+          });
 
-        var line = new google.maps.Polyline({
-          path: lineCoordinates,
-          geodesic: true,
-          strokeColor: "#FF0000",
-          strokeOpacity: 1.0,
-          strokeWeight: 2,
-          map: map
-        });
+          polylines.push(line);
+        }
+        else{
+          var curveControlPoint = getCurveControlPoint(lineCoordinates[lineCoordinates.length-2], lineCoordinates[lineCoordinates.length-1]);
+          var curveCoordinates = getCurveCoordinates(lineCoordinates[lineCoordinates.length-2], lineCoordinates[lineCoordinates.length-1], curveControlPoint, 100);
 
-        polylines.push(line);
+          var curvedPolyline = new google.maps.Polyline({
+            path: curveCoordinates,
+            geodesic: true,
+            strokeColor: '#FF0000',
+            strokeOpacity: 1.0,
+            strokeWeight: 2,
+            map: map
+          });
+
+          polylines.push(curvedPolyline);
+        }
       }
       else{
-        if(trackers[i].Path[j].Location == 'e1'){
+        if(trackers2[i].Path[j].Location == 'e1'){
           lat = 3.3302596829132978;
           lng = 103.01434535857689;
         }
-        else if(trackers[i].Path[j].Location == 'e2'){
+        else if(trackers2[i].Path[j].Location == 'e2'){
           lat = 3.3508240459167102;
           lng = 102.996406745325;
         }
-        else if(trackers[i].Path[j].Location == 'e3'){
+        else if(trackers2[i].Path[j].Location == 'e3'){
           lat = 3.3612774316077645;
           lng = 102.97966976166896;
         }
-        else if(trackers[i].Path[j].Location == 'e5'){
+        else if(trackers2[i].Path[j].Location == 'e5'){
           lat = 3.330773797233892;
           lng = 103.00747890374363;
         }
-        else if(trackers[i].Path[j].Location == 'c1'){
+        else if(trackers2[i].Path[j].Location == 'c1'){
           lat = 3.332230453017469;
           lng = 102.99795169766249;
         }
-        else if(trackers[i].Path[j].Location == 'c2'){
+        else if(trackers2[i].Path[j].Location == 'c2'){
           lat = 3.3336014211970255;
           lng = 102.99391765544796;
         }
-        else if(trackers[i].Path[j].Location == 'c3'){
+        else if(trackers2[i].Path[j].Location == 'c3'){
           lat = 3.3383997947728696;
           lng = 102.99700756012292;
         }
@@ -433,6 +645,46 @@ function setMapOnAll(map) {
   for (var i = 0; i < polylines.length; i++) {
     polylines[i].setMap(map);
   }
+}
+
+function getCurveControlPoint(startPoint, endPoint) {
+  // Calculate the midpoint
+  var midpoint = google.maps.geometry.spherical.interpolate(startPoint, endPoint, 0.5);
+
+  // Calculate the distance and bearing
+  var distance = google.maps.geometry.spherical.computeDistanceBetween(startPoint, endPoint);
+  var bearing = google.maps.geometry.spherical.computeHeading(startPoint, endPoint);
+
+  // Calculate the offset control point
+  var offsetDistance = distance / 2; // Adjust the offset distance as needed
+  var offsetBearing = bearing + 90; // Adjust the offset bearing (in degrees) as needed
+  var curveControlPoint = google.maps.geometry.spherical.computeOffset(midpoint, offsetDistance, offsetBearing);
+
+  return curveControlPoint;
+}
+
+// Function to calculate intermediate points along the curve
+function getCurveCoordinates(startPoint, endPoint, controlPoint, numPoints) {
+  var curveCoordinates = [];
+
+  for (var i = 0; i <= numPoints; i++) {
+    var t = i / numPoints;
+    var lat = quadraticBezier(t, startPoint.lat(), controlPoint.lat(), endPoint.lat());
+    var lng = quadraticBezier(t, startPoint.lng(), controlPoint.lng(), endPoint.lng());
+    curveCoordinates.push(new google.maps.LatLng(lat, lng));
+  }
+
+  return curveCoordinates;
+}
+
+// Function to calculate quadratic Bezier curve
+function quadraticBezier(t, p0, p1, p2) {
+  var u = 1 - t;
+  var tt = t * t;
+  var uu = u * u;
+  var ut = u * t;
+
+  return uu * p0 + 2 * ut * p1 + tt * p2;
 }
 </script>
   
