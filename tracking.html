@@ -306,6 +306,11 @@ $(function () {
           }
 
           $('#pathTracking').append(rows);
+          removeData(passedInGroundPie);
+          addData(passedInGroundPie, 'Moving', E5Small);
+          addData(passedInGroundPie, 'Not Moving', E5Big);
+          $('#bigVehicle').text(E5Small);
+          $('#smallVehicle').text(E5Big);
         }
       }
       else if(obj.status === 'failed'){

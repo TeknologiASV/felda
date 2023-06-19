@@ -82,7 +82,7 @@
       <div class="card">
         <div class="card-header border-0">
           <div class="d-flex justify-content-between">
-            <h3 class="card-title">Total Vehicle Into E5 (Big Car vs Small Car)</h3>
+            <h3 class="card-title">Total Vehicle Into E5 (Truck, SUV & Harvester vs Motorcycle)</h3>
             <!--a href="javascript:void(0);" onclick="report('dastotalvisitorsdaily')">View Report</a-->
           </div>
         </div>
@@ -158,7 +158,7 @@
               <span class="info-box-icon bg-warning"><i class="fas fa-truck"></i></span>
               <div class="info-box-content">
                 <div class="info-box-content">
-                  <span class="info-box-text">Big Vehicle</span>
+                  <span class="info-box-text">Truck, SUV & Harvester</span>
                   <span class="info-box-number" id="bigVehicle">0</span>
                 </div>
               </div>
@@ -168,7 +168,7 @@
             <div class="info-box">
               <span class="info-box-icon bg-success"><i class="fas fa-car"></i></span>
               <div class="info-box-content">
-                <span class="info-box-text">Small Vehicle</span>
+                <span class="info-box-text">Motorcycle</span>
                 <span class="info-box-number" id="smallVehicle">0</span>
               </div>
             </div>
@@ -178,7 +178,7 @@
           <div class="col-lg-12">
             <div class="card">
               <div class="card-header">
-                <h3 class="card-title">Big Vehicle vs Small Vehicle</h3>
+                <h3 class="card-title">Truck, SUV & Harvester vs Motorcycle</h3>
               </div>
               <div class="card-body">
                 <canvas id="bigSmallVehicle" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
@@ -345,8 +345,8 @@ $(function () {
       $('#editModal').find('#bigVehicle').html(E5Big);
       $('#editModal').find('#smallVehicle').html(E5Small);
       removeData(passedInGroundPie);
-      addData(passedInGroundPie, 'Small Vehicle', E5Small);
-      addData(passedInGroundPie, 'Big Vehicle', E5Big);
+      addData(passedInGroundPie, 'Motorcycle', E5Small);
+      addData(passedInGroundPie, 'Truck, SUV & Harvester', E5Big);
       $('#editModal').modal('show');
     }
     else if((ev.layerX <= (0.4*width + 50) && (0.4*width - 50) <= ev.layerX) && (ev.layerY <= (0.7 * height + 50) && (0.7 * height - 50) <= ev.layerY)){
@@ -354,8 +354,8 @@ $(function () {
       $('#editModal').find('#bigVehicle').html(C1Big);
       $('#editModal').find('#smallVehicle').html(C1Small);
       removeData(passedInGroundPie);
-      addData(passedInGroundPie, 'Small Vehicle', C1Small);
-      addData(passedInGroundPie, 'Big Vehicle', C1Big);
+      addData(passedInGroundPie, 'Motorcycle', C1Small);
+      addData(passedInGroundPie, 'Truck, SUV & Harvester', C1Big);
       $('#editModal').modal('show');
     }
     else if((ev.layerX <= (0.35*width + 50) && (0.35*width - 50) <= ev.layerX) && (ev.layerY <= (0.28 * height + 50) && (0.28 * height - 50) <= ev.layerY)){
@@ -363,8 +363,8 @@ $(function () {
       $('#editModal').find('#bigVehicle').html(E2Big);
       $('#editModal').find('#smallVehicle').html(E2Small);
       removeData(passedInGroundPie);
-      addData(passedInGroundPie, 'Small Vehicle', E2Small);
-      addData(passedInGroundPie, 'Big Vehicle', E2Big);
+      addData(passedInGroundPie, 'Motorcycle', E2Small);
+      addData(passedInGroundPie, 'Truck, SUV & Harvester', E2Big);
       $('#editModal').modal('show');
     }
     else if((ev.layerX <= (0.10*width + 50) && (0.10*width - 50) <= ev.layerX) && (ev.layerY <= (0.05 * height + 50) && (0.05 * height - 50) <= ev.layerY)){
@@ -372,8 +372,8 @@ $(function () {
       $('#editModal').find('#bigVehicle').html(E3Big);
       $('#editModal').find('#smallVehicle').html(E3Small);
       removeData(passedInGroundPie);
-      addData(passedInGroundPie, 'Small Vehicle', E3Small);
-      addData(passedInGroundPie, 'Big Vehicle', E3Big);
+      addData(passedInGroundPie, 'Motorcycle', E3Small);
+      addData(passedInGroundPie, 'Truck, SUV & Harvester', E3Big);
       $('#editModal').modal('show');
     }
     else if((ev.layerX <= (0.38*width + 50) && (0.38*width - 50) <= ev.layerX) && (ev.layerY <= (0.5 * height + 50) && (0.5 * height - 50) <= ev.layerY)){
@@ -381,8 +381,8 @@ $(function () {
       $('#editModal').find('#bigVehicle').html(C3Big);
       $('#editModal').find('#smallVehicle').html(C3Small);
       removeData(passedInGroundPie);
-      addData(passedInGroundPie, 'Small Vehicle', C3Small);
-      addData(passedInGroundPie, 'Big Vehicle', C3Big);
+      addData(passedInGroundPie, 'Motorcycle', C3Small);
+      addData(passedInGroundPie, 'Truck, SUV & Harvester', C3Big);
       $('#editModal').modal('show');
     }
     else if((ev.layerX <= (0.63*width + 50) && (0.63*width - 50) <= ev.layerX) && (ev.layerY <= (0.8 * height + 50) && (0.8 * height - 50) <= ev.layerY)){
@@ -390,8 +390,8 @@ $(function () {
       $('#editModal').find('#bigVehicle').html(E1Big);
       $('#editModal').find('#smallVehicle').html(E1Small);
       removeData(passedInGroundPie);
-      addData(passedInGroundPie, 'Small Vehicle', E1Small);
-      addData(passedInGroundPie, 'Big Vehicle', E1Big);
+      addData(passedInGroundPie, 'Motorcycle', E1Small);
+      addData(passedInGroundPie, 'Truck, SUV & Harvester', E1Big);
       $('#editModal').modal('show');
     }
     else if((ev.layerX <= (0.33*width + 50) && (0.33*width - 50) <= ev.layerX) && (ev.layerY <= (0.65 * height + 50) && (0.65 * height - 50) <= ev.layerY)){
@@ -399,8 +399,8 @@ $(function () {
       $('#editModal').find('#bigVehicle').html(C2Big);
       $('#editModal').find('#smallVehicle').html(C2Small);
       removeData(passedInGroundPie);
-      addData(passedInGroundPie, 'Small Vehicle', C2Small);
-      addData(passedInGroundPie, 'Big Vehicle', C2Big);
+      addData(passedInGroundPie, 'Motorcycle', C2Small);
+      addData(passedInGroundPie, 'Truck, SUV & Harvester', C2Big);
       $('#editModal').modal('show');
     }
   };
@@ -414,7 +414,7 @@ $(function () {
 
   var donutChartCanvas2 = $('#bigSmallVehicle').get(0).getContext('2d');
   var donutData2        = {
-    labels: ['Small Vehicle', 'Big Vehicle'],
+    labels: ['Motorcycle', 'Truck, SUV & Harvester'],
     datasets: [
       {
         data: [0,0],
@@ -464,7 +464,7 @@ $(function () {
     labels  : ['15/01', '16/01'],
     datasets: [
       {
-        label               : 'Big Vehicle',
+        label               : 'Truck, SUV & Harvester',
         backgroundColor     : 'rgba(244, 165, 34, 0.9)',
         borderColor         : 'rgba(244, 165, 34, 0.8)',
         pointRadius          : false,
@@ -475,7 +475,7 @@ $(function () {
         data                : [0, 0]
       },
       {
-        label               : 'Small Vehicle',
+        label               : 'Motorcycle',
         backgroundColor     : 'rgba(96, 146, 205, 1)',
         borderColor         : 'rgba(96, 146, 205, 1)',
         pointRadius         : false,
