@@ -41,6 +41,10 @@
                   <select class="form-control" id="harvesterId">
                     <option value="212248">Harvester 1 (212248)</option>
                     <option value="561973">Harvester 2 (561973)</option>
+                    <option value="524394">Truck 1 (524394)</option>
+                    <option value="266677">Truck 2 (266677)</option>
+                    <option value="982133">Truck 3 (982133)</option>
+                    <option value="743152">Truck 4 (743152)</option>
                   </select>
                 </div>
               </div>
@@ -118,7 +122,6 @@
                   <th>No.</th>
                   <th>Time</th>
                   <th>Location</th>
-                  <th>Distance (m)</th>
                 </tr>
               </thead>
               <tbody id="pathTrackingDetails"></tbody>
@@ -493,7 +496,7 @@ function view(i) {
 
   if(trackers2[i].Path != null && trackers2[i].Path.length > 0){
     for(var j=0; j< trackers2[i].Path.length; j++){
-      rows = rows + '<td>' + (j+1).toString() + '</td><td>'+ trackers2[i].Path[j].Date +'</td><td>'+ trackers2[i].Path[j].Location +'</td><td>'+ trackers2[i].Path[j].Distance +'</td></tr>';     
+      rows = rows + '<td>' + (j+1).toString() + '</td><td>'+ trackers2[i].Path[j].Date +'</td><td>'+ trackers2[i].Path[j].Location +'</td></tr>';     
     
       if(trackers2[i].Path[j].Location == 'e1'){
         addMarker(new google.maps.LatLng(3.3302596829132978, 103.01434535857689));
@@ -564,7 +567,8 @@ function view(i) {
           lineCoordinates.push(new google.maps.LatLng(lat, lng));
         }
         
-        if(trackers2[i].Path[j].Date.toString().substring(0,2) < "12"){
+        debugger;
+        if(trackers2[i].Path[j].Date.toString().substring(0,2) < "12" || trackers2[i].Date == '2022-12-09'){
           var line = new google.maps.Polyline({
             path: lineCoordinates,
             geodesic: true,
@@ -625,7 +629,7 @@ function view(i) {
     }
   }
   else{
-    rows = rows + '<td></td><td></td><td></td</tr>';
+    rows = rows + '<td></td><td></td><td></td></tr>';
   }
 
   $('#pathTrackingDetails').append(rows);

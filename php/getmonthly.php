@@ -152,9 +152,39 @@ if(isset($_POST['startDate'], $_POST['endDate'])){
                     $message[$i]['E5Big'] -= 200;
                     $message[$i]['E5Small'] -= 204;
                 }
+                else if($message[$i]['Date'] == '2022-10-15'){
+                    $message[$i]['E3Count'] -= 1611;
+                }
+                else if($message[$i]['Date'] == '2022-10-16'){
+                    $message[$i]['E3Count'] -= 1000;
+                }
                 else if($message[$i]['Date'] == '2022-10-23'){
                     $message[$i]['E5Big'] -= 183;
                     $message[$i]['E5Small'] -= 211;
+                }
+                else if($message[$i]['Date'] == '2022-10-25'){
+                    $message[$i]['E3Count'] -= 1411;
+                }
+                else if($message[$i]['Date'] == '2022-10-26'){
+                    $message[$i]['E3Count'] -= 1011;
+                }
+                else if($message[$i]['Date'] == '2022-11-04'){
+                    $message[$i]['E3Count'] -= 1611;
+                }
+                else if($message[$i]['Date'] == '2022-11-05'){
+                    $message[$i]['E3Count'] -= 1331;
+                }
+                else if($message[$i]['Date'] == '2022-11-15'){
+                    $message[$i]['E3Count'] -= 1511;
+                }
+                else if($message[$i]['Date'] == '2022-11-16'){
+                    $message[$i]['E3Count'] -= 1231;
+                }
+                else if($message[$i]['Date'] == '2022-11-25'){
+                    $message[$i]['E3Count'] -= 1500;
+                }
+                else if($message[$i]['Date'] == '2022-11-26'){
+                    $message[$i]['E3Count'] -= 1200;
                 }
                 else if($message[$i]['Date'] == '2022-11-07'){
                     $message[$i]['E5Big'] -= 283;
