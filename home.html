@@ -20,124 +20,227 @@
   <div class="container-fluid">
     <div class="row">
       <div class="col-lg-12">
-        <div class="card">
+        <div class="card card-primary card-outline card-outline-tabs">
+          <div class="card-header p-0 border-bottom-0">
+            <ul class="nav nav-tabs" id="custom-tabs-four-tab" role="tablist">
+              <li class="nav-item">
+                <a class="nav-link active" id="custom-tabs-four-home-tab" data-toggle="pill" href="#weekly" role="tab" aria-controls="custom-tabs-four-home" aria-selected="true">Weekly</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" id="custom-tabs-four-profile-tab" data-toggle="pill" href="#daily" role="tab" aria-controls="custom-tabs-four-profile" aria-selected="false">Daily</a>
+              </li>
+            </ul>
+          </div>
           <div class="card-body">
-            <div class="row">
-              <div class="col-9">
-                <div class="form-group">
-                  <label>Date range button:</label>
+            <div class="tab-content" id="custom-tabs-four-tabContent">
+              <div class="tab-pane fade show active" id="weekly" role="tabpanel" aria-labelledby="custom-tabs-four-home-tab">
+                <div class="row">
+                  <div class="col-9">
+                    <div class="form-group">
+                      <label>Date range button:</label>
 
-                  <div class="input-group">
-                    <button type="button" class="btn btn-default float-right" id="daterange-btn">
-                      <i class="far fa-calendar-alt"></i> Date range picker
-                      <i class="fas fa-caret-down"></i>
+                      <div class="input-group">
+                        <button type="button" class="btn btn-default float-right" id="daterange-btn">
+                          <i class="far fa-calendar-alt"></i> Date range picker
+                          <i class="fas fa-caret-down"></i>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-lg-12">
+                    <div class="card">
+                      <div class="card-header border-0">
+                        <div class="d-flex justify-content-between">
+                          <h3 class="card-title">PH Values By Zone</h3>
+                          <a href="javascript:void(0);" onclick="report('passedingroundmonthly')">View Report</a>
+                        </div>
+                      </div>
+                      <div class="card-body">
+                        <div class="chart">
+                          <canvas id="phValueByZone" style="min-height: 250px; height: 300px; max-height: 300px; max-width: 100%;"></canvas>
+                        </div>
+                        <div class="d-flex flex-row justify-content-end">
+                          <span class="mr-2"><i class="fas fa-square" style="color: #f4a522"></i> In</span>
+                          <span><i class="fas fa-square" style="color: #6092cd;"></i> Passing By</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-lg-12">
+                    <div class="card">
+                      <div class="card-header border-0">
+                        <div class="d-flex justify-content-between">
+                          <h3 class="card-title">Humidity By Zone (%)</h3>
+                          <a href="javascript:void(0);" onclick="report('passedingroundmonthly')">View Report</a>
+                        </div>
+                      </div>
+                      <div class="card-body">
+                        <div class="chart">
+                          <canvas id="humidityValueByZone" style="min-height: 250px; height: 300px; max-height: 300px; max-width: 100%;"></canvas>
+                        </div>
+                        <div class="d-flex flex-row justify-content-end">
+                          <span class="mr-2"><i class="fas fa-square" style="color: #f4a522"></i> In</span>
+                          <span><i class="fas fa-square" style="color: #6092cd;"></i> Passing By</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-lg-12">
+                    <div class="card">
+                      <div class="card-header border-0">
+                        <div class="d-flex justify-content-between">
+                          <h3 class="card-title">Total Vehicle Into E5 (Truck, SUV & Harvester vs Motorcycle)</h3>
+                          <!--a href="javascript:void(0);" onclick="report('dastotalvisitorsdaily')">View Report</a-->
+                        </div>
+                      </div>
+                      <div class="card-body">
+                        <div class="chart">
+                          <canvas id="totalVehicleIntoE5" style="min-height: 250px; height: 200px; max-height: 300px; max-width: 100%;"></canvas>
+                        </div>
+                      </div>
+                      <!-- /.card-body -->
+                    </div>
+                  </div>
+                  <div class="col-lg-12">
+                    <div class="card">
+                      <div class="card-header border-0">
+                        <div class="d-flex justify-content-between">
+                          <h3 class="card-title">Total Vehicle Exit (E2 vs E3)</h3>
+                          <!--a href="javascript:void(0);" onclick="report('dastotalvisitorsdaily')">View Report</a-->
+                        </div>
+                      </div>
+                      <div class="card-body">
+                        <div class="chart">
+                          <canvas id="totalVehicleIntoE2AndE3" style="min-height: 250px; height: 200px; max-height: 300px; max-width: 100%;"></canvas>
+                        </div>
+                      </div>
+                      <!-- /.card-body -->
+                    </div>
+                  </div>
+                  <div class="col-lg-12">
+                    <div class="card">
+                      <div class="card-header">
+                        <h3 class="card-title">Heatmap</h3>
+                      </div>
+                      <div class="card-body">
+                        <div id="heatmapContainerWrapper" style="width:100%; height:100%;">
+                          <div id="heatmapContainer" style="width:100%; height:800px;"></div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-lg-12">
+                    <div class="card">
+                      <div class="card-header border-0">
+                        <div class="d-flex justify-content-between">
+                          <h3 class="card-title">Total Time Spent of Harvesters By Zone (Hours)</h3>
+                          <!--a href="javascript:void(0);" onclick="report('dastotalvisitorsdaily')">View Report</a-->
+                        </div>
+                      </div>
+                      <div class="card-body">
+                        <div class="chart">
+                          <canvas id="totalTimeSpentByZone" style="min-height: 250px; height: 200px; max-height: 300px; max-width: 100%;"></canvas>
+                        </div>
+                      </div>
+                      <!-- /.card-body -->
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="tab-pane fade" id="daily" role="tabpanel" aria-labelledby="custom-tabs-four-profile-tab">
+                <div class="row">
+                  <div class="col-3">
+                    <div class="form-group">
+                      <label>Date:</label>
+                      <div class="input-group">
+                        <input id="reservationdate" type="date" class="form-control">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-3">
+                    <div class="form-group">
+                      <label>Start Time:</label>
+                      <div class="input-group">
+                        <input id="reservationtime" type="time" class="form-control">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-3">
+                    <div class="form-group">
+                      <label>End Time:</label>
+                      <div class="input-group">
+                        <input id="endtime" type="time" class="form-control">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-3">
+                    <label></label>
+                    <button type="button" class="btn btn-block bg-gradient-warning btn" id="filterSearch">
+                      <i class="fas fa-search"></i>
+                      Search
                     </button>
                   </div>
                 </div>
+                <div class="row">
+                  <div class="col-lg-12">
+                    <div class="card">
+                      <div class="card-header border-0">
+                        <div class="d-flex justify-content-between">
+                          <h3 class="card-title">Total Vehicle Into E5 (Truck, SUV & Harvester vs Motorcycle)</h3>
+                          <!--a href="javascript:void(0);" onclick="report('dastotalvisitorsdaily')">View Report</a-->
+                        </div>
+                      </div>
+                      <div class="card-body">
+                        <div class="chart">
+                          <canvas id="totalVehicleIntoE5Daily" style="min-height: 250px; height: 200px; max-height: 300px; max-width: 100%;"></canvas>
+                        </div>
+                      </div>
+                      <!-- /.card-body -->
+                    </div>
+                  </div>
+                  <div class="col-lg-12">
+                    <div class="card">
+                      <div class="card-header border-0">
+                        <div class="d-flex justify-content-between">
+                          <h3 class="card-title">Total Vehicle Exit (E2 vs E3)</h3>
+                          <!--a href="javascript:void(0);" onclick="report('dastotalvisitorsdaily')">View Report</a-->
+                        </div>
+                      </div>
+                      <div class="card-body">
+                        <div class="chart">
+                          <canvas id="totalVehicleIntoE2AndE3Daily" style="min-height: 250px; height: 200px; max-height: 300px; max-width: 100%;"></canvas>
+                        </div>
+                      </div>
+                      <!-- /.card-body -->
+                    </div>
+                  </div>
+                  <div class="col-lg-12">
+                    <div class="card">
+                      <div class="card-header border-0">
+                        <div class="d-flex justify-content-between">
+                          <h3 class="card-title">Total Time Spent of Harvesters By Zone (Hours)</h3>
+                          <!--a href="javascript:void(0);" onclick="report('dastotalvisitorsdaily')">View Report</a-->
+                        </div>
+                      </div>
+                      <div class="card-body">
+                        <div class="chart">
+                          <canvas id="totalTimeSpentByZoneDaily" style="min-height: 250px; height: 200px; max-height: 300px; max-width: 100%;"></canvas>
+                        </div>
+                      </div>
+                      <!-- /.card-body -->
+                    </div>
+                  </div>
+                </div>
+                <!-- /.row -->
               </div>
             </div>
           </div>
         </div>
       </div>
     </div>
-    <!--div class="col-lg-12">
-      <div class="card">
-        <div class="card-header border-0">
-          <div class="d-flex justify-content-between">
-            <h3 class="card-title">PH Values By Zone</h3>
-            <a href="javascript:void(0);" onclick="report('passedingroundmonthly')">View Report</a>
-          </div>
-        </div>
-        <div class="card-body">
-          <div class="chart">
-            <canvas id="phValueByZone" style="min-height: 250px; height: 300px; max-height: 300px; max-width: 100%;"></canvas>
-          </div>
-          <div class="d-flex flex-row justify-content-end">
-            <span class="mr-2"><i class="fas fa-square" style="color: #f4a522"></i> In</span>
-            <span><i class="fas fa-square" style="color: #6092cd;"></i> Passing By</span>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="col-lg-12">
-      <div class="card">
-        <div class="card-header border-0">
-          <div class="d-flex justify-content-between">
-            <h3 class="card-title">Humidity By Zone (%)</h3>
-            <a href="javascript:void(0);" onclick="report('passedingroundmonthly')">View Report</a>
-          </div>
-        </div>
-        <div class="card-body">
-          <div class="chart">
-            <canvas id="humidityValueByZone" style="min-height: 250px; height: 300px; max-height: 300px; max-width: 100%;"></canvas>
-          </div>
-          <div class="d-flex flex-row justify-content-end">
-            <span class="mr-2"><i class="fas fa-square" style="color: #f4a522"></i> In</span>
-            <span><i class="fas fa-square" style="color: #6092cd;"></i> Passing By</span>
-          </div>
-        </div>
-      </div>
-    </div-->
-    <div class="col-lg-12">
-      <div class="card">
-        <div class="card-header border-0">
-          <div class="d-flex justify-content-between">
-            <h3 class="card-title">Total Vehicle Into E5 (Truck, SUV & Harvester vs Motorcycle)</h3>
-            <!--a href="javascript:void(0);" onclick="report('dastotalvisitorsdaily')">View Report</a-->
-          </div>
-        </div>
-        <div class="card-body">
-          <div class="chart">
-            <canvas id="totalVehicleIntoE5" style="min-height: 250px; height: 200px; max-height: 300px; max-width: 100%;"></canvas>
-          </div>
-        </div>
-        <!-- /.card-body -->
-      </div>
-    </div>
-    <div class="col-lg-12">
-      <div class="card">
-        <div class="card-header border-0">
-          <div class="d-flex justify-content-between">
-            <h3 class="card-title">Total Vehicle Exit (E2 vs E3)</h3>
-            <!--a href="javascript:void(0);" onclick="report('dastotalvisitorsdaily')">View Report</a-->
-          </div>
-        </div>
-        <div class="card-body">
-          <div class="chart">
-            <canvas id="totalVehicleIntoE2AndE3" style="min-height: 250px; height: 200px; max-height: 300px; max-width: 100%;"></canvas>
-          </div>
-        </div>
-        <!-- /.card-body -->
-      </div>
-    </div>
-    <div class="col-lg-12">
-      <div class="card">
-        <div class="card-header">
-          <h3 class="card-title">Heatmap</h3>
-        </div>
-        <div class="card-body">
-          <div id="heatmapContainerWrapper" style="width:100%; height:100%;">
-            <div id="heatmapContainer" style="width:100%; height:800px;"></div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="col-lg-12">
-      <div class="card">
-        <div class="card-header border-0">
-          <div class="d-flex justify-content-between">
-            <h3 class="card-title">Total Time Spent of Harvesters By Zone (Hours)</h3>
-            <!--a href="javascript:void(0);" onclick="report('dastotalvisitorsdaily')">View Report</a-->
-          </div>
-        </div>
-        <div class="card-body">
-          <div class="chart">
-            <canvas id="totalTimeSpentByZone" style="min-height: 250px; height: 200px; max-height: 300px; max-width: 100%;"></canvas>
-          </div>
-        </div>
-        <!-- /.card-body -->
-      </div>
-    </div>
+    
   </div>
   <!-- /.container-fluid -->
 </div>
@@ -299,15 +402,15 @@ $(function () {
             ]
           });
         
-          //removeData(lineChart);
-          //removeData(lineChart2);
+          removeData(lineChart);
+          removeData(lineChart2);
           removeData(barChart2);
           removeData(barChart3);
           removeData(barChart);
 
           for(var i=0; i<obj.message.length; i++){
-            //addLineChartData(lineChart, obj.message[i].Date, obj.message[i].C1Ph, obj.message[i].C2Ph, obj.message[i].C3Ph);
-            //addLineChartData(lineChart2, obj.message[i].Date, obj.message[i].C1Humidity, obj.message[i].C2Humidity, obj.message[i].C3Humidity);
+            addLineChartData(lineChart, obj.message[i].Date, obj.message[i].C1Ph, obj.message[i].C2Ph, obj.message[i].C3Ph);
+            addLineChartData(lineChart2, obj.message[i].Date, obj.message[i].C1Humidity, obj.message[i].C2Humidity, obj.message[i].C3Humidity);
             addBarChartData(barChart2, obj.message[i].Date, obj.message[i].E5Big, obj.message[i].E5Small);
             addBarChartData(barChart3, obj.message[i].Date, obj.message[i].E2Count, obj.message[i].E3Count);
           }
@@ -522,10 +625,106 @@ $(function () {
 
   var barChartOptions = {responsive: true, maintainAspectRatio: false, datasetFill: false};
   var barChart = new Chart(barChartCanvas, {type: 'bar', data: barChartData, options: barChartOptions});
+
+  var barChartCanvasDaily3 = $('#totalVehicleIntoE2AndE3Daily').get(0).getContext('2d');
+  var barChartDataDaily3 = {
+    labels  : ['15/01', '16/01'],
+    datasets: [
+      {
+        label               : 'E2',
+        backgroundColor     : 'rgba(244, 165, 34, 0.9)',
+        borderColor         : 'rgba(244, 165, 34, 0.8)',
+        pointRadius          : false,
+        pointColor          : '#f4a522',
+        pointStrokeColor    : 'rgba(244, 165, 34, 1)',
+        pointHighlightFill  : '#fff',
+        pointHighlightStroke: 'rgba(244, 165, 34, 1)',
+        data                : [0, 0]
+      },
+      {
+        label               : 'E3',
+        backgroundColor     : 'rgba(96, 146, 205, 1)',
+        borderColor         : 'rgba(96, 146, 205, 1)',
+        pointRadius         : false,
+        pointColor          : 'rgba(96, 146, 205, 1)',
+        pointStrokeColor    : '#6092cd',
+        pointHighlightFill  : '#fff',
+        pointHighlightStroke: 'rgba(96, 146, 205, 1)',
+        data                : [0, 0]
+      }
+    ]
+  };
+
+  var barChartOptionsDaily3 = {responsive: true, maintainAspectRatio: false, datasetFill: false};
+  var barChartDaily3 = new Chart(barChartCanvasDaily3, {type: 'bar', data: barChartDataDaily3, options: barChartOptionsDaily3});
+
+  var barChartCanvasDaily2 = $('#totalVehicleIntoE5Daily').get(0).getContext('2d');
+  var barChartDataDaily2 = {
+    labels  : ['15/01', '16/01'],
+    datasets: [
+      {
+        label               : 'Truck, SUV & Harvester',
+        backgroundColor     : 'rgba(244, 165, 34, 0.9)',
+        borderColor         : 'rgba(244, 165, 34, 0.8)',
+        pointRadius          : false,
+        pointColor          : '#f4a522',
+        pointStrokeColor    : 'rgba(244, 165, 34, 1)',
+        pointHighlightFill  : '#fff',
+        pointHighlightStroke: 'rgba(244, 165, 34, 1)',
+        data                : [0, 0]
+      },
+      {
+        label               : 'Motorcycle',
+        backgroundColor     : 'rgba(96, 146, 205, 1)',
+        borderColor         : 'rgba(96, 146, 205, 1)',
+        pointRadius         : false,
+        pointColor          : 'rgba(96, 146, 205, 1)',
+        pointStrokeColor    : '#6092cd',
+        pointHighlightFill  : '#fff',
+        pointHighlightStroke: 'rgba(96, 146, 205, 1)',
+        data                : [0, 0]
+      }
+    ]
+  };
+
+  var barChartOptionsDaily2 = {responsive: true, maintainAspectRatio: false, datasetFill: false};
+  var barChartDaily2 = new Chart(barChartCanvasDaily2, {type: 'bar', data: barChartDataDaily2, options: barChartOptionsDaily2});
+
+  var barChartDailyCanvas = $('#totalTimeSpentByZoneDaily').get(0).getContext('2d');
+  var barChartDailyData = {
+    labels  : ['C1', 'C2', 'C3', 'E2', 'E3', 'E5'],
+    datasets: [
+      {
+        label               : 'Harvester 1 (212248)',
+        backgroundColor     : 'rgba(244, 165, 34, 0.9)',
+        borderColor         : 'rgba(244, 165, 34, 0.8)',
+        pointRadius          : false,
+        pointColor          : '#f4a522',
+        pointStrokeColor    : 'rgba(244, 165, 34, 1)',
+        pointHighlightFill  : '#fff',
+        pointHighlightStroke: 'rgba(244, 165, 34, 1)',
+        data                : [0, 0, 0, 0, 0, 0]
+      },
+      {
+        label               : 'Harvester 2 (561973)',
+        backgroundColor     : 'rgba(96, 146, 205, 1)',
+        borderColor         : 'rgba(96, 146, 205, 1)',
+        pointRadius         : false,
+        pointColor          : 'rgba(96, 146, 205, 1)',
+        pointStrokeColor    : '#6092cd',
+        pointHighlightFill  : '#fff',
+        pointHighlightStroke: 'rgba(96, 146, 205, 1)',
+        data                : [0, 0, 0, 0, 0, 0]
+      }
+    ]
+  };
+
+  var barChartDailyOptions = {responsive: true, maintainAspectRatio: false, datasetFill: false};
+  var barChartDaily = new Chart(barChartDailyCanvas, {type: 'bar', data: barChartDailyData, options: barChartDailyOptions});
   //End: BAR CHART
 
   // Start: LINE CHART 
-  /*var lineChartCanvas = $('#phValueByZone').get(0).getContext('2d');
+  var lineChartCanvas = $('#phValueByZone').get(0).getContext('2d');
   var lineChartCanvas2 = $('#humidityValueByZone').get(0).getContext('2d');
   var lineChartOptions = {maintainAspectRatio : false, responsive : true, datasetFill: false};
   var lineChartOptions2 = {maintainAspectRatio : false, responsive : true, datasetFill: false};
@@ -614,13 +813,42 @@ $(function () {
 
   var lineChart = new Chart(lineChartCanvas, {type: 'line', data: lineChartData, options: lineChartOptions});
   var lineChart2 = new Chart(lineChartCanvas2, {type: 'line', data: lineChartData2, options: lineChartOptions2});
-  
-  /*var passedInLvl1Daily = new Chart(lineChartCanvas4, {
-    type: 'line',
-    data: lineChartData2,
-    options: lineChartOptions2
-  });*/
   //End: LINE CHART
+
+  $('#reservationdate').val(formatDate(new Date()));
+  $('#reservationtime').val('00:00');
+  $('#endtime').val('23:59');
+
+  $('#filterSearch').on('click', function(){
+    var reservationdate = $('#reservationdate').val() ? $('#reservationdate').val() : formatDate(new Date()),
+        reservationtime = $('#reservationtime').val() ? $('#reservationtime').val() + ':00' : '00:00:00',
+        endtime = $('#endtime').val() ? $('#endtime').val() + ':59' : '23:59:59';
+
+    $.post('php/getdaily.php', {startDate: reservationdate + " " + reservationtime, endDate: reservationdate + " " + endtime}, function(data){
+      var obj = JSON.parse(data);
+
+      if(obj.status === 'success'){
+        removeData(barChartDaily2);
+        removeData(barChartDaily3);
+        removeData(barChartDaily);
+
+        for(var i=0; i<obj.message.length; i++){
+          addBarChartData(barChartDaily2, obj.message[i].Date, obj.message[i].E5Big, obj.message[i].E5Small);
+          addBarChartData(barChartDaily3, obj.message[i].Date, obj.message[i].E2Count, obj.message[i].E3Count);
+        }
+
+        for(var j=0; j<obj.harvester.length; j++){
+          addBarChartData(barChartDaily, obj.harvester[j].zone, obj.harvester[j].Har1, obj.harvester[j].Har2);
+        }
+      }
+      else if(obj.status === 'failed'){
+        toastr["error"](obj.message, "Failed:");
+      }
+      else{
+        toastr["error"]("Something wrong when geting data", "Failed:");
+      }
+    });
+  });
 
   $.post('php/getmonthly.php', {startDate: formatDate(moment().subtract(29, 'days')) + " 00:00:00", endDate: formatDate(moment()) + " 23:59:59"}, function(data){
     var obj = JSON.parse(data);
@@ -690,15 +918,15 @@ $(function () {
         ]
       });
     
-      //removeData(lineChart);
-      //removeData(lineChart2);
+      removeData(lineChart);
+      removeData(lineChart2);
       removeData(barChart2);
       removeData(barChart3);
       removeData(barChart);
 
       for(var i=0; i<obj.message.length; i++){
-        //addLineChartData(lineChart, obj.message[i].Date, obj.message[i].C1Ph, obj.message[i].C2Ph, obj.message[i].C3Ph);
-        //addLineChartData(lineChart2, obj.message[i].Date, obj.message[i].C1Humidity, obj.message[i].C2Humidity, obj.message[i].C3Humidity);
+        addLineChartData(lineChart, obj.message[i].Date, obj.message[i].C1Ph, obj.message[i].C2Ph, obj.message[i].C3Ph);
+        addLineChartData(lineChart2, obj.message[i].Date, obj.message[i].C1Humidity, obj.message[i].C2Humidity, obj.message[i].C3Humidity);
         addBarChartData(barChart2, obj.message[i].Date, obj.message[i].E5Big, obj.message[i].E5Small);
         addBarChartData(barChart3, obj.message[i].Date, obj.message[i].E2Count, obj.message[i].E3Count);
       }
@@ -712,6 +940,21 @@ $(function () {
     }
     else{
       toastr["error"]("Something wrong when geting data", "Failed:");
+    }
+  });
+
+  $.post('php/getdaily.php', {startDate: $('#reservationdate').val() + " " + $('#reservationtime').val() + ':00', endDate: $('#reservationdate').val() + " " + $('#endtime').val() + ':59'}, function(data){
+    removeData(barChartDaily2);
+    removeData(barChartDaily3);
+    removeData(barChartDaily);
+
+    for(var i=0; i<obj.message.length; i++){
+      addBarChartData(barChartDaily2, obj.message[i].Date, obj.message[i].E5Big, obj.message[i].E5Small);
+      addBarChartData(barChartDaily3, obj.message[i].Date, obj.message[i].E2Count, obj.message[i].E3Count);
+    }
+
+    for(var j=0; j<obj.harvester.length; j++){
+      addBarChartData(barChartDaily, obj.harvester[j].zone, obj.harvester[j].Har1, obj.harvester[j].Har2);
     }
   });
 });
