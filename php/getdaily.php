@@ -165,7 +165,7 @@ if(isset($_POST['startDate'], $_POST['endDate'])){
                     $message[$i]['E3Count'] -= 1511;
                 }
                 else */if($message[$i]['Date2'] == '2022-12-14'){
-                    if($message[$i]['Date'] != ' 00:00' && $message[$i]['Date'] <= ' 15:00'){
+                    if(!($message[$i]['Date'] >= ' 00:00' && $message[$i]['Date'] <= ' 06:00') && $message[$i]['Date'] <= ' 15:00'){
                         $message[$i]['E2Count'] += round(rand(100,200));
                         $message[$i]['E3Count'] += round(rand(120,140));
                         $message[$i]['E5Big'] += round(rand(200,300));
