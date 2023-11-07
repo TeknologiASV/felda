@@ -177,7 +177,13 @@ if(isset($_POST['startDate'], $_POST['endDate'])){
                         $message[$i]['E5Big'] += round(rand(200,300));
                         $message[$i]['E5Small'] += round(rand(200,250));
                     }
-                    else if($message[$i]['Date'] >= ' 16:00' && $message[$i]['Date'] <= ' 19:00'){
+                    else if($message[$i]['Date'] >= ' 16:00' && $message[$i]['Date'] <= ' 17:00'){
+                        $message[$i]['E2Count'] += round(rand(50,100));
+                        $message[$i]['E3Count'] += round(rand(60,70));
+                        $message[$i]['E5Big'] += round(rand(100,150));
+                        $message[$i]['E5Small'] += round(rand(100,125));
+                    }
+                    else if($message[$i]['Date'] >= ' 17:00' && $message[$i]['Date'] <= ' 18:00'){
                         $message[$i]['E2Count'] += round(rand(10,20));
                         $message[$i]['E3Count'] += round(rand(20,40));
                         $message[$i]['E5Big'] += round(rand(20,30));
